@@ -1,0 +1,40 @@
+Storage overview
+
+Character
+    ->Specializations
+        ->Abilities
+    ->Weapons
+    ->Armor
+    ->Equipment
+
+Statistics
+
+    Strength
+        Strength is a measure of physical power.
+        - Damage from slashing, piercing, and bludgeoning weapons are scaled off of this.
+        - Damage resistance scales off of this.
+  
+    Dexterity
+        Dexterity is a measure of physical accuracy and speed.
+        - Every point improves accuacy and chance to hit.
+        - Every few points increases the number of attacks you can make.
+        - Precision damage scales off of this.
+        - Dodging is based off of dexterity.
+
+    Endurance
+        Endurance is a measure of physical fortitude and capacity to take damage.
+        - Every point is another HP per level.
+        - Every point is another unit of time you can go without food and water.
+
+  Intelligence
+        Intelligence is a measure of mental calculating power.
+        - Damage, defence, and crafting scale off of intelligence.
+
+  Intuition
+        Intuition is a measure of mental accuracy and speed.
+        - Like intelligence, but works with magic.
+
+  Willpower
+        Like endurance, this is mental fortitude and capacity for mental damage.
+        - It defines how long you can go without sleep.
+        - Every point is more MP per level.

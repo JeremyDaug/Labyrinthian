@@ -1,0 +1,43 @@
+The map is subdivided and stored to allow for large effectively infinite size.
+
+A room is a standard 8x8. A Cell is 8x8 rooms, and is usually the division for what is or isn't loaded. 
+
+Rooms can be connected, but are limited to the 8x8 of the cell. Basic zooming functionality should be able to view most of a cell. Line of sight, illumination, and distance should effect what can be 'actively' seen. The user should be able to pull up a map of all rooms they have explored. Rooms may be created and destroyed and doing so randomizes them.
+
+Rooms can have 3 types of walls.
+1. Open or connected walls which allow you to go from room to room freely and the room acts as one bigger room. 
+2. Closed paths have walls that separate the rooms from each other, or at least through that path.
+3. Locked paths have a double door at the center of the wall that can be unlocked by the player. When they unlock the door the room is generated randomly(assuming it doesn't exist already), and when it is closed and the room has no other paths into it, it is destroyed.
+
+There is also a series of 'Home' cells which allow you to destroy the walls and unify rooms to be more useful.
+
+There are Larger areas that which the background will slowly shift to as you go farther from the center of the map (The Start/Home Areas). Going North leads to magically dominant rooms, where magic items are more plentiful and powerful. South leads to Tech dominant rooms, where Science and tech weapons are more plentiful and powerful. East leads to Organic dominant rooms, where creatures and the environment becomes more organic and based on internal strength. West leads to Inorganic Dominant rooms, where creatures become less organic or more dependent on items and equimpent.
+
+Going in diagonals has them mixing. NE leads to magic beasts and creatures that become monstous. NW becomes more Golem, and 'guy with stuff' heavy. SE to alien and psionic creatures. SW to robots and technobeasts.
+
+An idea to make them visually distinct without much difficulty would be to have certain colors becoming dominant in certain directions. For example Tech could become Colder and Sharper, while Magic becomes Warmer and more Saturated. Organic goes to darker, earthy tones, while inorganic goes to metallic colors. 
+Idealy they would have tiles that gradually fade into the foreground over the standard tiles, but that can come later.
+
+Tiles visible have 5 designations.
+
+Basic Tile: The tile itself, can include hazards such as pitfalls, poisons, water, and similar things that effect the player.
+
+Entity Tile: The tile of both player, enemy, and ally. At largest they can be 4x4, however they can be irregular. Entity tiles can not cross.
+
+Ghost Tile: While the same as Entities they are partially transparent and can occupy the same space as entities, but they cannot occupy the same tile as other ghost tiles.
+
+Item Tile: A background Tile that holds items, chests, and the like. Everything can be crossed in this level, but may cause penalty to a player.
+
+Obstical Tile: A tile that cannot be crossed by Entity tiles, but can often be placed and moved around the player. Ghost tiles can cross these, but like items may cause slowdown.
+
+GUI
+
+In combat an overlay to show the player and allies movements and attacks can reach (Fire Emblem is the idea that comes to my mind but I'm open to other ideas). 
+
+There should be options for potential movement, attack, and spell options, as well as equipment stuff in combat. Such as a drop down right click menu to make it easier.
+
+The ability to use either keyboard or mouse should be available to make it quick and shortcuts aplenty to be nice and stuff.
+
+Background Storage
+
+Tiles should be unique overall. Non-entity tiles should be have unique Int IDs to find them. Entities will probably have two keys to define them (up to discussion).

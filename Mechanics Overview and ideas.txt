@@ -3,9 +3,60 @@ Storage overview
 Character
     ->Specializations
         ->Abilities
+        ->Stat Buffs
+        ->Skill Buffs
     ->Weapons
+        ->Bludgeoning
+        ->Slashing
+        ->Piercing
+        ->Precision
+        ->Ranged
+        ->Firearm
+        ->Magic
     ->Armor
+        ->Flexible
+        ->Hard
+        ->Dodge
     ->Equipment
+        ->Rings
+        ->Bands
+        ->Boots
+        ->Gloves
+        ->Cape
+        ->Eyes
+    ->Skills
+        ->Strength Based
+            ->Break
+            ->Hold
+            ->Grab
+            ->Lift
+            ->Jump
+            ->Push
+        ->Dex Based
+            ->Acrobatics
+            ->Sprint
+            ->Sleight of Hand
+            ->Stealth
+            ->Tinker
+        ->End Based
+            ->Run
+            ->Hold Breath
+        ->Int Based
+            ->Research Tech
+            ->Engineering
+            ->Calculation
+            ->Discect
+        ->Itu Based
+            ->
+        ->Wil Based
+            ->
+        ->Mixed Basis
+    ->Enhancements
+        ->Boosters
+        ->infusions
+        ->Transformations
+        ->Cybernetics
+        ->Golemurgy
 
 Statistics
 
@@ -26,15 +77,15 @@ Statistics
         - Every point is another HP per level.
         - Every point is another unit of time you can go without food and water.
 
-  Intelligence
+    Intelligence
         Intelligence is a measure of mental calculating power.
         - Damage, defence, and crafting scale off of intelligence.
 
-  Intuition
+    Intuition
         Intuition is a measure of mental accuracy and speed.
         - Like intelligence, but works with magic.
 
-  Willpower
+    Willpower
         Like endurance, this is mental fortitude and capacity for mental damage.
         - It defines how long you can go without sleep.
         - Every point is more MP per level.

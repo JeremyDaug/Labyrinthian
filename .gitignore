@@ -27,3 +27,8 @@
 *.exe
 *.out
 *.app
+*.sdf
+Labyrinthian.sln
+Labyrinthian.vcxproj
+Labyrinthian.vcxproj.filters
+ipch/

@@ -32,3 +32,4 @@ Labyrinthian.sln
 Labyrinthian.vcxproj
 Labyrinthian.vcxproj.filters
 ipch/
+.vscode/

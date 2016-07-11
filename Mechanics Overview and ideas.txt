@@ -89,3 +89,44 @@ Statistics
         Like endurance, this is mental fortitude and capacity for mental damage.
         - It defines how long you can go without sleep.
         - Every point is more MP per level.
+
+Disorganized Thoughts
+On travel.
+1. I did think about that and did not intend for the turnbased mechanic to be used universally, that being said I didn't give too much thought to the external movement outside of a 'fast travel' mechanic where you could backtravel through secured areas to save time or react to issues that arose elsewhere.
+
+I already intended the central most cell(s) to be a guaranteed safezone after the player clears them. From this place they can corral potential allies and build a makeshift town. The town acts as a safe spot where you can craft for long periods of time without worrying about enemies, improve and train your characters in non-combat arts (and develop entirely different combat styles). It also is the basis of the death mechanism.
+
+The game is in permanent Ironman mode, there are no loads, Saves are done automatically, and constantly, and if you die, you die for good. The way the town changes this is that it allows you to create a lineage, either through other people in the town, or through the offspring of the character. The offspring lets you continually build up a character line's power, but if someone else is there, you may use them should no offspring be able to take your place. You can also do creation of pet creatures and robot companions, corral allies and let others rest or train. So on. 
+
+On combat.
+2. My main focus in the tactical combat is more on the opponents then the environment. The environmnet may define what you can or can't do, but it should be a modifier against the creatures you fight. They are the main focus. 
+
+There is already planned to be multiple areas, again the 4 cardinal directions lead to a different dominating theme, and the secondary directions lead to the mixed themes that create many possible creatures.
+
+North is magic and is dominated by creatures that are powerful, but easily countered, and also a bit more chaotic (More numerous, but less organized).
+
+South is Tech and is dominated by enemies that are strong, but varied and not easily countered, also they tend to more focused tactics (Less numerous, but will be more organized) 
+
+East is Organic opponents, more numerous, but a bit weaker.
+
+West is Inorganic opponents, less numerous, but far stronger.
+
+Half directions lead to mixing them. 
+NE is Magical beasts and creatures who eat magic. 
+NW is golems and enemies with magic items who become increasingly powerful and dangerous.
+SE is Alien and psionic creatures who disable and debuff enemies.
+SW is robots and Cyborgs who can ignore most damage and start being able to hijack tech.
+
+In terms of the random generation, in all honesty it'll be a bunch of predefined rooms with various random elements. In all honesty though, the dungeon itself isn't the source of the challenge, it's the monsters.
+
+On the Lore
+3. Plot is like this. You are an amnesiac in a cell, there's a magic plant in the corner that's been sustaining you and some running water in the corners. At some point you started hearing someone else talking to you through the walls and you've build a rapport with them. One day you hear a clinking noise coming from one of the shallow pools of running water and find a large key about the size of a club. Using it to unlock the door and find your way around the first area you find this person and decide that you must find your way out. The only problem is that both of you know that it won't be so easy and prepare for a long slog to find the exit.
+
+TL;DR You find the key through the magic dungeon, rescue your first ally, then proceed to try and find your way to the exit while building up your strength and power.
+
+Stealth is possible, but will ultimately be more risky and less rewarding in the long run, but it'll allow you to scout out areas ahead so you can prepare.
+
+We are rescuing people. Randomly a few will pop up. The weaker ones will often join in immediately, the stronger allies have to be convinced through some way. But, all allies can be trained and specialized to assist you as you need. But, if you don't meet their needs they may turn against you.
+
+Short term goals that can be achieved is increasing the size and sustainability of the town, collecting items and materials for crafting, and exploring new areas with new monsters.
+Ultimately if they study enough and make their lineage last long enough they may be able to discover things entirely alien to the dungeon itself and create something from disparate parts that the dungeon would call an abomination.

@@ -1,48 +1,82 @@
 #ifndef NODE_H
 #define NODE_H
 
-struct Tile
+class Point
 {
-    int x;
-    int y;
+    public:
+    float x;
+    float y;
 
-    Tile(int nx, int ny) : x(nx), y(ny) {}
-}
+	Point() : x(0), y(0) {}
+    Point(float nx, float ny) : x(nx), y(ny) {}
+};
 
-template <typename T>
-struct Data
-{
-    Tile pos;
-    T Data;
-
-    Data(Tile position = Tile(), T* data = nullptr) : pos(position), Data(data) {}
-}
-
-template <typename T>
 class Node
 {
-private:
-    // The number of children this can have.
-    const int NODE_CAPACITY = 4;
-
-    // Parent of the Node, if the node is empty, then the node is the head.
+	/*
+	Node should always be filled out to level 0. If it isn't then something is probably wrong.
+	*/
+    private:
+    // Parent of the Node
     Node* Parent;
 
-    // The Quadrants beneath the tree.
+    // Children Nodes
+	// Notes: NE holds 0,0; +,0; and 0,+
+	// NW holds -,0
+	// SE holds 0,-
     Node* nw;
-    Node* ne;
     Node* sw;
+    Node* ne;
     Node* se;
 
-    // The Data, if any, in the node.
-    Data data;
+    // position of the node
+    Point pos;
 
-    // Constructors
+    // Level of the node 0 is a full tile.
+    int height;
+
+    // Data in the node
+	long data[5];
+    // getters / Finders
+    Node* getNodeAtPoint(Point targ);
+	Node* getNodeAt(Point targ, int level);
+    Point getPoint() {return pos;}
+
+	// Bool Finder to see if it exists.
+	bool isChild(Point targ);
+
+	// filling constructor to recursively fill the tree.
+	Node(Node* par, Point loc);
+
+public:
+    // constructor
     Node();
-    Node(const Node& Parent);
-    
-    // Destructor
+	// Demarked Constructor to allow quick creation up to a certain height
+	// This should be used for the Head in the QuadTree Class.
+	Node(int Height);
+    // destructor
     ~Node();
-}
 
+    // Getters / finders
+	  // Getters that try to find points specifically.
+    long* getPointData(Point targ);
+    Node* getNodeAtPoint(Point targ);
+	  // Generic Finder for node at any level.
+    Node* getNodeAt(Point targ, int level);
+
+	int getHeight() { return height };
+
+    // fillers to fill out the children beneath a node.
+    void fillChildren();
+
+    // setter functions
+	bool setDataAtPoint(Point targ, long arr[]);
+	bool setDataAtPointAndIndex(Point targ, long var, int index);
+	// setter function
+	bool setData(long arr[]);
+	bool setDataAtIndex(long var, int index);
+
+
+
+}
 #endif // NODE_H

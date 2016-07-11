@@ -5,25 +5,20 @@
 
 class QuadTree
 {
-    public:
-        /** Default constructor */
-        QuadTree();
-        /** Default destructor */
-        ~QuadTree();
+private:
+	// effectively constant. It always stradles the four major quadrants.
+	// Should always have a pos of -1/2, -1/2. 
+	// as this will put the axes in the tree as well. (+/-, 0 and 0, +/-) 
+	Node* head;
+	Node* FocusedCell;
+	Node* FocusedRoom;
+	Node* FocusedTile;
+	
+	int height;
 
-        int[] getDataFromTile(long id);
-
-        Node* getCell(long x, long y);
-
-        Node* getRoom(long x, long y);
-
-        Node* getTile(long x, long y);
-
-    private:
-        Node* m_head; //!< Member variable "m_head"
-        Node* m_focus; //!< Member variable "m_focus"
-        Node* m_focusCell; //!< Member variable "m_focusCell"
-        int m_headLevel;
+public:
+	void makeTileSpace(Point pos);
+	int* findTileData
 };
 
 #endif // QUADTREE_H

@@ -91,6 +91,9 @@ Statistics
         - Every point is more MP per level.
 
 Disorganized Thoughts
+Lineage System and Character interactions
+
+
 On travel.
 1. I did think about that and did not intend for the turnbased mechanic to be used universally, that being said I didn't give too much thought to the external movement outside of a 'fast travel' mechanic where you could backtravel through secured areas to save time or react to issues that arose elsewhere.
 

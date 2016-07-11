@@ -28,8 +28,6 @@
 *.out
 *.app
 *.sdf
-Labyrinthian.sln
-Labyrinthian.vcxproj
-Labyrinthian.vcxproj.filters
-ipch/
+
+# Visual Studio Code
 .vscode/

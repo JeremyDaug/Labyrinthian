@@ -28,6 +28,10 @@ class Cell
 	bool ConnectivityCheck();
 
 public:
+	// Default Constructor
+	Cell();
+	// setters.
+	void setData(Point pos, int ndata, int level) { data[pos.x][pos.y][level] = ndata; }
 	// getters for tile data.
 	int* getData(int x, int y) { return data[x][y]; }
 	int* getData(Point pos) { return data[pos.x][pos.y]; }
@@ -62,6 +66,9 @@ class DunMap
 	bool InterCellConnectivityCheck(Point QuestionCell);
 
 public:
+	// Point Data Setters
+	void setData(Point pos, int ndata, int level) { curr->setData(pos, ndata, level); }
+	void setDataInCell(Point CellPos, Point ptPos, int ndata, int level);
 	// tester functions
 	bool ConnectivityConsistencyCheck();
 	// Pathing check.

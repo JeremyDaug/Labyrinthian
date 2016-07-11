@@ -36,6 +36,28 @@ bool Cell::ConnectivityCheck()
 	return true;
 }
 
+Cell::Cell()
+{
+	// fill the data with standard values.
+	for (int i = 0; i < 64; ++i)
+	{
+		for (int j = 0; j < 64; ++j)
+		{
+			for (int k = 0; k < 5; ++k)
+			{
+				// set for locked door.
+				// if on the edge of the room, mark as generic wall (1)
+				if ((i == 0 || i == 7 || j == 0 || j == 7) && k == 0)
+					data[i][j][k] = 1;
+				else // mark it as a blank tile (0)
+					data[i][j][k] = 0;
+			}
+		}
+	}
+
+	connectivity
+}
+
 char Cell::getDirectionalConnectivity(Point pos, char Dir)
 {
 	char connect = getConnectivity(pos);
@@ -112,6 +134,12 @@ bool DunMap::InterCellConnectivityCheck(Point QuestionCell)
 	}
 
 	return true;
+}
+
+void DunMap::setDataInCell(Point CellPos, Point ptPos, int ndata, int level)
+{
+	if( BigMap.find(CellPos) != BigMap.end())
+		BigMap[CellPos]->setData(ptPos, ndata, level);
 }
 
 bool DunMap::ConnectivityConsistencyCheck()

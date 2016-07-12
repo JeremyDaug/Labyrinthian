@@ -256,5 +256,8 @@ bool DunMap::CreateCell(Point pos)
 
 bool DunMap::ConnectivityConsistencyCheck()
 {
-
+	for (unsigned int i = 0; i < existingCells.size(); ++i)
+		if (!InterCellConnectivityCheck(existingCells[i]))
+			return false;
+	return true;
 }

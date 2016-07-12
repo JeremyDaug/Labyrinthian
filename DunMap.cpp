@@ -181,7 +181,7 @@ bool DunMap::InterCellConnectivityCheck(Point QuestionCell)
 
 bool DunMap::findCell(Point pos)
 {
-	for (int i = 0; i < existingCells.size(); ++i)
+	for (unsigned int i = 0; i < existingCells.size(); ++i)
 	{
 		if (existingCells[i] == pos)
 			return true;
@@ -256,8 +256,5 @@ bool DunMap::CreateCell(Point pos)
 
 bool DunMap::ConnectivityConsistencyCheck()
 {
-	for (int i = 0; i < existingCells.size(); ++i)
-		if (!InterCellConnectivityCheck(existingCells[i]))
-			return false;
-	return true;
+
 }

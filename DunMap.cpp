@@ -1,5 +1,50 @@
 #include "DunMap.h"
 
+bool Cell::roomConnValid(Point room, char dir)
+{
+	Point adj;
+	char undir; // the opposite direction
+	if (dir == 'N')
+	{
+		adj.x = room.x;
+		adj.y = room.y + 1;
+		undir = 'S';
+	}
+	if (dir == 'E')
+	{
+		adj.x = room.x + 1;
+		adj.y = room.y;
+		undir = 'W';
+	}
+	if (dir == 'S')
+	{
+		adj.x = room.x;
+		adj.y = room.y - 1;
+		undir = 'N';
+	}
+	if (dir == 'W')
+	{
+		adj.x = room.x - 1;
+		adj.y = room.y;
+		undir = 'E';
+	}
+	// if inside the cell do the check. else return True.
+	if ((0 <= adj.x) &&
+		(0 <= adj.y) &&
+		(adj.x < 8)  &&
+		(adj.y < 8) )
+	{
+		return (
+			connMask(getConnectivity(room), dir) == connMask(getConnectivity(adj), undir)// check if connections are equal
+			|| 
+			(getConnectivity(room) == 0 && connMask(getConnectivity(adj), undir) == 2) // If one is unmade and the other is locked
+			||
+			(connMask(getConnectivity(room), dir) == 2 && getConnectivity(adj) == 0)// or the other way around.
+			);
+	}
+	return true;
+}
+
 bool Cell::ConnectivityCheck()
 {
 	// TODO check this hardcore. Seriously. It. Is. Important.
@@ -8,49 +53,19 @@ bool Cell::ConnectivityCheck()
 	{
 		for (int j = 0; j < 8; ++j)
 		{
-			// get current room
-			char x = getConnectivity(i, j);
-
-			char e = getConnectivity(i + 1, j);
-			char s = getConnectivity(i, j - 1);
-			char w = getConnectivity(i - 1, j);
 			// Begin checks
 			// N
-			if (j + 1 < 8)
-			{
-				char n = getConnectivity(i, j + 1);
-				if ((connMask(x, 'N') != connMask(n, 'S')) || // if connectivity isn't the same.
-					!(x == 0 && connMask(n, 'S') == 2) || // The current room doesn't exist and the other is locked
-					!(n == 0 && connMask(x, 'N'))) // or the other room DNE and current room is locked.
+			if (j + 1 < 8 && !roomConnValid(Point(i,j), 'N'))
 					return false;
-			}
 			// E
-			if (i + 1 < 8)
-			{
-				char e = getConnectivity(i + 1, j);
-				if ((connMask(x, 'E') != connMask(e, 'W')) || // if connectivity isn't the same.
-					!(x == 0 && connMask(e, 'W') == 2) || // The current room doesn't exist and the other is locked
-					!(e == 0 && connMask(x, 'E'))) // or the other room DNE and current room is locked.
+			if (i + 1 < 8 && !roomConnValid(Point(i,j), 'E'))
 					return false;
-			}
-			// s
-			if (j - 1 >= 0)
-			{
-				char s = getConnectivity(i, j - 1);
-				if ((connMask(x, 'S') != connMask(s, 'N')) || // if connectivity isn't the same.
-					!(x == 0 && connMask(s, 'N') == 2) || // The current room doesn't exist and the other is locked
-					!(s == 0 && connMask(x, 'S'))) // or the other room DNE and current room is locked.
+			// S
+			if (j - 1 >= 0 && !roomConnValid(Point(i,j), 'S'))
 					return false;
-			}
-			// w
-			if (i - 1 >= 0)
-			{
-				char w = getConnectivity(i - 1, j);
-				if ((connMask(x, 'W') != connMask(w, 'E')) || // if connectivity isn't the same.
-					!(x == 0 && connMask(w, 'E') == 2) || // The current room doesn't exist and the other is locked
-					!(w == 0 && connMask(x, 'W'))) // or the other room DNE and current room is locked.
+			// W
+			if (i - 1 >= 0 && !roomConnValid(Point(i,j), 'W'))
 					return false;
-			}
 		}
 	}
 	return true;
@@ -98,22 +113,16 @@ Cell::Cell()
 
 char Cell::connMask(char connectivity, char dir)
 {
-	char w = connectivity % 4;
-	char s = ((connectivity - w) % 16) / 4;
-	char e = ((connectivity - w - s) % 64) / 16;
-	char n = ((connectivity - w - s - e) % 256) / 64;
-	switch (dir)
-	{
-	case 'N':
-		return n;
-	case 'E':
-		return e;
-	case 'S':
-		return s;
-	case 'W':
-		return w;
-	}
-	return 0;
+	if (dir == 'N')
+		return ((64 + 128) | connectivity) / 64;
+	else if (dir == 'E')
+		return ((16 + 32) | connectivity) / 16;
+	else if (dir == 'S')
+		return ((4 + 8) | connectivity) / 4;
+	else if (dir == 'W')
+		return (1 + 2) | connectivity;
+	else
+		return 0;
 }
 
 char Cell::getDirectionalConnectivity(Point pos, char Dir)

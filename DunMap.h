@@ -10,10 +10,11 @@ struct Point
 	long x;
 	long y;
 	Point() : x(0), y(0) {}
-	Point(long nx, long ny) :  x(nx), y(ny) {}
+	Point(long nx, long ny) : x(nx), y(ny) {}
 
-	inline bool operator==(const Point& rhs) { return (x == rhs.x && y == rhs.y); }
-	bool operator<(const Point& rhs) const
+	bool operator==(const Point& rhs) { return (x == rhs.x && y == rhs.y); } //  Tested
+	bool operator!=(const Point& rhs) { return !this->operator==(rhs); } // Tested
+	bool operator<(const Point& rhs) const // Tested
 	{
 		if (x == rhs.x)
 		{
@@ -39,9 +40,17 @@ class Cell
 	This case indicates that the room the lock points to does not exist.
 	*/
 
-	bool ConnectivityCheck();
+	// Utility mask for connectivity
+	// only Takes N, E, S, and W
+	char connMask(char connectivity, char dir);
+
+	// Room connection Valid checker
+	// Takes a room and the adjacent room you want to check on.
+	// Returns true if adjacent room is outside of the cell as intercell connections are checked in DunMap.
+	bool roomConnValid(Point room, char dir);
 
 public:
+	bool ConnectivityCheck(); // Tested
 	// Default Constructor
 	Cell();
 	// setters.
@@ -52,10 +61,6 @@ public:
 	// getter for all connectivity of a room.
 	char getConnectivity(int x, int y) { return connectivity[x][y]; }
 	char getConnectivity(Point pos) { return connectivity[pos.x][pos.y]; }
-
-	// Utility mask for connectivity
-	// only Takes N, E, S, and W
-	char connMask(char connectivity, char dir);
 
 	// getter of specific connectivity
 	// returns the 0-3, for the state of the room, not the full char.

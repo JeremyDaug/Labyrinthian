@@ -4,7 +4,6 @@
 
 #include<map>
 #include<vector>
-using namespace std;
 
 struct Point
 {
@@ -14,6 +13,14 @@ struct Point
 	Point(long nx, long ny) :  x(nx), y(ny) {}
 
 	inline bool operator==(const Point& rhs) { return (x == rhs.x && y == rhs.y); }
+	bool operator<(const Point& rhs) const
+	{
+		if (x == rhs.x)
+		{
+			return y < rhs.y;
+		}
+		return x < rhs.x;
+	}
 };
 
 class Cell

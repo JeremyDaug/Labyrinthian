@@ -60,9 +60,9 @@ void CellTests()
 	
 	// Check default connectivity (everything should be 0).
 	if (x.ConnectivityCheck())
-		Print("Passed: Connectivity Check");
+		Print("Passed: Default Connectivity Check");
 	else
-		Print("Failed: Connectivity Check");
+		Print("Failed: Default Connectivity Check");
 
 	// Double check the default connectivity by printing it.
 	for (int i = 0; i < 8; ++i)
@@ -74,8 +74,36 @@ void CellTests()
 		std::cout << std::endl;
 	}
 
-	// getData
-	
+	// set and getData for tiles.
+	x.setData(Point(2, 2), 100, 1);
+	if (100 == x.getData(Point(2, 2))[1])
+		Print("Passed: Get/Set tile data");
+	else
+		Print("Failed: Get/Set tile data");
+
+	// get/set connectivity for a room.
+	x.setConnectivity(Point(2, 2), north, unlocked);
+	x.setConnectivity(Point(2, 3), south, unlocked);
+	if (x.getConnectivity(Point(2, 2)) == (128 + 64))
+		Print("Passed: get/set connectivity.");
+	else
+		Print("Failed: get/set Connectiity");
+
+	// Check connectivity
+	if (x.ConnectivityCheck())
+		Print("Passed: Connectivity Check");
+	else
+		Print("Failed: Connectivity Check");
+
+	// Double check the connectivity by printing it.
+	for (int i = 0; i < 8; ++i)
+	{
+		for (int j = 0; j < 8; ++j)
+		{
+			std::cout << (int)x.getConnectivity(Point(i, j)) << ' ';
+		}
+		std::cout << std::endl;
+	}
 }
 
 void DunMapTests()

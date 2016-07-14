@@ -32,6 +32,14 @@ enum ConnStat
 	unlocked = 3
 };
 
+enum Direction
+{
+	north = 'N',
+	east = 'E',
+	south = 'S',
+	west = 'W'
+};
+
 class Cell
 {
 	// what is in the room.
@@ -64,11 +72,11 @@ public:
 	// Default Constructor
 	Cell();
 	// setters.
-	void setData(Point pos, int ndata, int level) { data[pos.x][pos.y][level] = ndata; }
+	void setData(Point pos, int ndata, int level) { data[pos.x][pos.y][level] = ndata; } // tested
 	void setConnectivity(Point pos, char Dir, ConnStat type);
 	// getters for tile data.
-	int* getData(int x, int y) { return data[x][y]; }
-	int* getData(Point pos) { return data[pos.x][pos.y]; }
+	int* getData(int x, int y) { return data[x][y]; } // tested
+	int* getData(Point pos) { return data[pos.x][pos.y]; } // tested
 	// getter for all connectivity of a room.
 	char getConnectivity(int x, int y) { return connectivity[x][y]; }
 	char getConnectivity(Point pos) { return connectivity[pos.x][pos.y]; }

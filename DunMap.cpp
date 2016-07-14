@@ -4,29 +4,29 @@ bool Cell::roomConnValid(Point room, char dir)
 {
 	Point adj;
 	char undir; // the opposite direction
-	if (dir == 'N')
+	if (dir == north)
 	{
 		adj.x = room.x;
 		adj.y = room.y + 1;
-		undir = 'S';
+		undir = south;
 	}
-	if (dir == 'E')
+	if (dir == east)
 	{
 		adj.x = room.x + 1;
 		adj.y = room.y;
-		undir = 'W';
+		undir = west;
 	}
-	if (dir == 'S')
+	if (dir == south)
 	{
 		adj.x = room.x;
 		adj.y = room.y - 1;
-		undir = 'N';
+		undir = north;
 	}
-	if (dir == 'W')
+	if (dir == west)
 	{
 		adj.x = room.x - 1;
 		adj.y = room.y;
-		undir = 'E';
+		undir = east;
 	}
 	// if inside the cell do the check. else return True.
 	if ((0 <= adj.x) &&
@@ -47,13 +47,13 @@ bool Cell::roomConnValid(Point room, char dir)
 
 char Cell::reverseMask(char dir, ConnStat type)
 {
-	if (dir == 'N')
+	if (dir == north)
 		return type * 64;
-	else if (dir == 'E')
+	else if (dir == east)
 		return type * 16;
-	else if (dir == 'S')
+	else if (dir == south)
 		return type * 4;
-	else if (dir == 'W')
+	else if (dir == west)
 		return type;
 	else
 		return 0;
@@ -70,16 +70,16 @@ bool Cell::ConnectivityCheck()
 		{
 			// Begin checks
 			// N
-			if (j + 1 < 8 && !roomConnValid(Point(i,j), 'N'))
+			if (j + 1 < 8 && !roomConnValid(Point(i,j), north))
 					return false;
 			// E
-			if (i + 1 < 8 && !roomConnValid(Point(i,j), 'E'))
+			if (i + 1 < 8 && !roomConnValid(Point(i,j), east))
 					return false;
 			// S
-			if (j - 1 >= 0 && !roomConnValid(Point(i,j), 'S'))
+			if (j - 1 >= 0 && !roomConnValid(Point(i,j), south))
 					return false;
 			// W
-			if (i - 1 >= 0 && !roomConnValid(Point(i,j), 'W'))
+			if (i - 1 >= 0 && !roomConnValid(Point(i,j), west))
 					return false;
 		}
 	}
@@ -131,22 +131,22 @@ void Cell::setConnectivity(Point pos, char Dir, ConnStat type)
 	if (0 <= pos.x && pos.x < 8 && 0 <= pos.y && pos.y < 8)
 	{
 		char connStatus = connectivity[pos.x][pos.y];
-		if (Dir == 'N')
+		if (Dir == north)
 		{
 			connStatus -= connStatus | (64 + 128);
 			connStatus += reverseMask(Dir, type) * 64;
 		}
-		else if (Dir == 'E')
+		else if (Dir == east)
 		{
 			connStatus -= connStatus | (16 + 32);
 			connStatus += reverseMask(Dir, type) * 16;
 		}
-		else if (Dir == 'S')
+		else if (Dir == south)
 		{
 			connStatus -= connStatus | (4 + 8);
 			connStatus += reverseMask(Dir, type) * 4;
 		}
-		else if (Dir == 'W')
+		else if (Dir == west)
 		{
 			connStatus -= connStatus | (1 + 2);
 			connStatus += reverseMask(Dir, type);
@@ -158,13 +158,13 @@ void Cell::setConnectivity(Point pos, char Dir, ConnStat type)
 
 ConnStat Cell::connMask(char connectivity, char dir)
 {
-	if (dir == 'N')
+	if (dir == north)
 		return ConnStat(((64 + 128) | connectivity) / 64);
-	else if (dir == 'E')
+	else if (dir == east)
 		return ConnStat(((16 + 32) | connectivity) / 16);
-	else if (dir == 'S')
+	else if (dir == south)
 		return ConnStat(((4 + 8) | connectivity) / 4);
-	else if (dir == 'W')
+	else if (dir == west)
 		return ConnStat((1 + 2) | connectivity);
 	else
 		return ConnStat(0);
@@ -209,23 +209,23 @@ bool DunMap::InterCellConnectivityCheck(Point QuestionCell)
 	{
 		if (Nptr)
 		{
-			if (Nptr->getDirectionalConnectivity(i, 0, 'S') != CurrCell->getDirectionalConnectivity(i, 7, 'N'))
+			if (Nptr->getDirectionalConnectivity(i, 0, south) != CurrCell->getDirectionalConnectivity(i, 7, north))
 				return false;
 
 		}
 		if (Sptr)
 		{
-			if (Sptr->getDirectionalConnectivity(i, 7, 'N') != CurrCell->getDirectionalConnectivity(i, 0, 'S'))
+			if (Sptr->getDirectionalConnectivity(i, 7, north) != CurrCell->getDirectionalConnectivity(i, 0, south))
 				return false;
 		}
 		if (Eptr)
 		{
-			if (Eptr->getDirectionalConnectivity(0, i, 'W') != CurrCell->getDirectionalConnectivity(7, i, 'E'))
+			if (Eptr->getDirectionalConnectivity(0, i, west) != CurrCell->getDirectionalConnectivity(7, i, east))
 				return false;
 		}
 		if (Wptr)
 		{
-			if (Wptr->getDirectionalConnectivity(7, i, 'E') != CurrCell->getDirectionalConnectivity(0, i, 'W'))
+			if (Wptr->getDirectionalConnectivity(7, i, east) != CurrCell->getDirectionalConnectivity(0, i, west))
 				return false;
 		}
 	}

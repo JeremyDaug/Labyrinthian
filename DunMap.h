@@ -24,6 +24,14 @@ struct Point
 	}
 };
 
+enum ConnStat
+{
+	closed = 0,
+	open = 1,
+	locked = 2,
+	unlocked = 3
+};
+
 class Cell
 {
 	// what is in the room.
@@ -42,12 +50,14 @@ class Cell
 
 	// Utility mask for connectivity
 	// only Takes N, E, S, and W
-	char connMask(char connectivity, char dir);
+	ConnStat connMask(char connectivity, char dir);
 
 	// Room connection Valid checker
 	// Takes a room and the adjacent room you want to check on.
 	// Returns true if adjacent room is outside of the cell as intercell connections are checked in DunMap.
 	bool roomConnValid(Point room, char dir);
+
+	char reverseMask(char dir, ConnStat type);
 
 public:
 	bool ConnectivityCheck(); // Tested
@@ -55,6 +65,7 @@ public:
 	Cell();
 	// setters.
 	void setData(Point pos, int ndata, int level) { data[pos.x][pos.y][level] = ndata; }
+	void setConnectivity(Point pos, char Dir, ConnStat type);
 	// getters for tile data.
 	int* getData(int x, int y) { return data[x][y]; }
 	int* getData(Point pos) { return data[pos.x][pos.y]; }
@@ -64,8 +75,8 @@ public:
 
 	// getter of specific connectivity
 	// returns the 0-3, for the state of the room, not the full char.
-	char getDirectionalConnectivity(Point pos, char Dir);
-	char getDirectionalConnectivity(int x, int y, char Dir) { return getDirectionalConnectivity(Point(x, y), Dir); }
+	ConnStat getDirectionalConnectivity(Point pos, char Dir);
+	ConnStat getDirectionalConnectivity(int x, int y, char Dir) { return getDirectionalConnectivity(Point(x, y), Dir); }
 };
 
 class DunMap
@@ -91,14 +102,14 @@ class DunMap
 	// Check for interconnectivity between cells (ensure they match up).
 	bool InterCellConnectivityCheck(Point QuestionCell);
 
-	// Find if the cell exists in the map currently.
-	bool findCell(Point pos);
-	bool findCell(long x, long y) { return findCell(Point(x, y)); }
-
 public:
 	// Point Data Setters
 	void setData(Point pos, int ndata, int level) { curr->setData(pos, ndata, level); }
 	void setDataInCell(Point CellPos, Point ptPos, int ndata, int level);
+
+	// Find if a Cell exists already
+	bool CellExists(Point pos);
+	bool CellExists(long x, long y) { return CellExists(Point(x, y)); }
 
 	// Let's start building.
 	// Constructor

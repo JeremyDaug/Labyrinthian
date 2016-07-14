@@ -45,6 +45,21 @@ bool Cell::roomConnValid(Point room, char dir)
 	return true;
 }
 
+char Cell::reverseMask(char dir, ConnStat type)
+{
+	if (dir == 'N')
+		return type * 64;
+	else if (dir == 'E')
+		return type * 16;
+	else if (dir == 'S')
+		return type * 4;
+	else if (dir == 'W')
+		return type;
+	else
+		return 0;
+	return 0;
+}
+
 bool Cell::ConnectivityCheck()
 {
 	// TODO check this hardcore. Seriously. It. Is. Important.
@@ -111,21 +126,51 @@ Cell::Cell()
 	}
 }
 
-char Cell::connMask(char connectivity, char dir)
+void Cell::setConnectivity(Point pos, char Dir, ConnStat type)
 {
-	if (dir == 'N')
-		return ((64 + 128) | connectivity) / 64;
-	else if (dir == 'E')
-		return ((16 + 32) | connectivity) / 16;
-	else if (dir == 'S')
-		return ((4 + 8) | connectivity) / 4;
-	else if (dir == 'W')
-		return (1 + 2) | connectivity;
-	else
-		return 0;
+	if (0 <= pos.x && pos.x < 8 && 0 <= pos.y && pos.y < 8)
+	{
+		char connStatus = connectivity[pos.x][pos.y];
+		if (Dir == 'N')
+		{
+			connStatus -= connStatus | (64 + 128);
+			connStatus += reverseMask(Dir, type) * 64;
+		}
+		else if (Dir == 'E')
+		{
+			connStatus -= connStatus | (16 + 32);
+			connStatus += reverseMask(Dir, type) * 16;
+		}
+		else if (Dir == 'S')
+		{
+			connStatus -= connStatus | (4 + 8);
+			connStatus += reverseMask(Dir, type) * 4;
+		}
+		else if (Dir == 'W')
+		{
+			connStatus -= connStatus | (1 + 2);
+			connStatus += reverseMask(Dir, type);
+		}
+		
+		connectivity[pos.x][pos.y] = connStatus;
+	}
 }
 
-char Cell::getDirectionalConnectivity(Point pos, char Dir)
+ConnStat Cell::connMask(char connectivity, char dir)
+{
+	if (dir == 'N')
+		return ConnStat(((64 + 128) | connectivity) / 64);
+	else if (dir == 'E')
+		return ConnStat(((16 + 32) | connectivity) / 16);
+	else if (dir == 'S')
+		return ConnStat(((4 + 8) | connectivity) / 4);
+	else if (dir == 'W')
+		return ConnStat((1 + 2) | connectivity);
+	else
+		return ConnStat(0);
+}
+
+ConnStat Cell::getDirectionalConnectivity(Point pos, char Dir)
 {
 	char connect = getConnectivity(pos);
 	return connMask(connect, Dir);
@@ -188,7 +233,7 @@ bool DunMap::InterCellConnectivityCheck(Point QuestionCell)
 	return true;
 }
 
-bool DunMap::findCell(Point pos)
+bool DunMap::CellExists(Point pos)
 {
 	for (unsigned int i = 0; i < existingCells.size(); ++i)
 	{
@@ -255,7 +300,7 @@ DunMap::~DunMap()
 bool DunMap::CreateCell(Point pos)
 {
 	// check that the cell doesnt' already exist.
-	if (!findCell(pos))
+	if (!CellExists(pos))
 		return false;
 	// else get create the cell.
 	existingCells.push_back(pos);

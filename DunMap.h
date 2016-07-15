@@ -11,6 +11,7 @@ struct Point
 	long y;
 	Point() : x(0), y(0) {}
 	Point(long nx, long ny) : x(nx), y(ny) {}
+	Point(const Point& pos) : x(pos.x), y(pos.y) {}
 
 	bool operator==(const Point& rhs) { return (x == rhs.x && y == rhs.y); } //  Tested
 	bool operator!=(const Point& rhs) { return !this->operator==(rhs); } // Tested
@@ -24,7 +25,7 @@ struct Point
 	}
 };
 
-enum ConnStat
+enum ConnStat : short
 {
 	closed = 0,
 	open = 1,
@@ -32,7 +33,15 @@ enum ConnStat
 	unlocked = 3
 };
 
-enum Direction
+enum DirBitmask : short
+{
+	Nmask = 64 + 128,
+	Emask = 16+32,
+	Smask = 4+8,
+	Wmask = 1+2
+};
+
+enum Direction : char
 {
 	north = 'N',
 	east = 'E',
@@ -45,7 +54,7 @@ class Cell
 	// what is in the room.
 	int data[64][64][5];
 	// how the rooms connect to each other.
-	char connectivity[8][8];
+	int connectivity[8][8];
 	/*
 	the data in the char has 4 states, 0-closed, 1-Open, 2-locked, and 3-unlocked.
 	A char has bits and each pair creates the end result.
@@ -58,33 +67,31 @@ class Cell
 
 	// Utility mask for connectivity
 	// only Takes N, E, S, and W
-	ConnStat connMask(char connectivity, char dir);
+	ConnStat connMask(short connectivity, Direction dir);
 
-	// Room connection Valid checker
-	// Takes a room and the adjacent room you want to check on.
-	// Returns true if adjacent room is outside of the cell as intercell connections are checked in DunMap.
-	bool roomConnValid(Point room, char dir);
-
-	char reverseMask(char dir, ConnStat type);
+	int reverseMask(Direction dir, ConnStat type);
 
 public:
+	// Check all the rooms for proper connection to this room.
+	bool checkRoomConnections(Point pos); // Tested
+
 	bool ConnectivityCheck(); // Tested
 	// Default Constructor
-	Cell();
+	Cell(); // Tested
 	// setters.
 	void setData(Point pos, int ndata, int level) { data[pos.x][pos.y][level] = ndata; } // tested
-	void setConnectivity(Point pos, char Dir, ConnStat type);
+	void setConnectivity(Point pos, Direction Dir, ConnStat type); // Tested
 	// getters for tile data.
 	int* getData(int x, int y) { return data[x][y]; } // tested
 	int* getData(Point pos) { return data[pos.x][pos.y]; } // tested
 	// getter for all connectivity of a room.
-	char getConnectivity(int x, int y) { return connectivity[x][y]; }
-	char getConnectivity(Point pos) { return connectivity[pos.x][pos.y]; }
+	short getConnectivity(int x, int y) { return connectivity[x][y]; } // tested
+	short getConnectivity(const Point& pos) { return connectivity[pos.x][pos.y]; } // tested
 
 	// getter of specific connectivity
 	// returns the 0-3, for the state of the room, not the full char.
-	ConnStat getDirectionalConnectivity(Point pos, char Dir);
-	ConnStat getDirectionalConnectivity(int x, int y, char Dir) { return getDirectionalConnectivity(Point(x, y), Dir); }
+	ConnStat getDirectionalConnectivity(Point& pos, Direction Dir); // tested
+	ConnStat getDirectionalConnectivity(int x, int y, Direction Dir) { return getDirectionalConnectivity(Point(x, y), Dir); } // tested
 };
 
 class DunMap
@@ -106,11 +113,11 @@ class DunMap
     // The Map itself.
 	std::map<Point, Cell*> BigMap;
 
-    // Functions
+public:
+	// Functions
 	// Check for interconnectivity between cells (ensure they match up).
 	bool InterCellConnectivityCheck(Point QuestionCell);
 
-public:
 	// Point Data Setters
 	void setData(Point pos, int ndata, int level) { curr->setData(pos, ndata, level); }
 	void setDataInCell(Point CellPos, Point ptPos, int ndata, int level);
@@ -133,6 +140,7 @@ public:
 
 	// Create Room
 	// Returns true if the room was created, false if the room already exists.
+	bool CreateRoom(Point pos); // no randomizer, make blank room.
 	bool CreateRoom(Point pos, int(*randomizer)());
 	bool CreateRoom(long x, long y, int(*randomizer)()) { return CreateRoom(Point(x, y), randomizer); }
 
@@ -140,7 +148,7 @@ public:
 	// void Load(stuff);
 
 	// tester functions
-	bool ConnectivityConsistencyCheck();
+	bool ConnectivityConsistencyCheck(); // tested
 	// Pathing check.
 };
 

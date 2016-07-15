@@ -157,7 +157,59 @@ ConnStat Cell::getDirectionalConnectivity(Point& pos, Direction Dir)
 
 void DunMap::SetRoomConnections(Point& cell, Point& room, Direction dir, ConnStat connType)
 {
-	
+	Direction undir;
+	Point adj;
+	if (dir == north)
+	{
+		undir = south;
+		adj = Point(room.x, room.y + 1);
+	}
+	else if (dir == east)
+	{
+		undir = west;
+		adj = Point(room.x + 1, room.y);
+	}
+	else if (dir == south)
+	{
+		undir = north;
+		adj = Point(room.x, room.y - 1);
+	}
+	else if (dir == west)
+	{
+		undir = east;
+		adj = Point(room.x - 1, room.y);
+	}
+	if (!(0 <= adj.x && adj.x < 8 && 0 <= adj.y && adj.y < 8))
+	{
+		Point adjCell;
+		if (adj.y > 7) // north
+		{
+			adjCell = Point(cell.x, cell.y + 1);
+			adj = Point(adj.x, 0);
+		}
+		else if (adj.x > 7) // east
+		{
+			adjCell = Point(cell.x + 1, cell.y);
+			adj = Point(0, adj.y);
+		}
+		else if (adj.y < 0) // South
+		{
+			adjCell = Point(cell.x, cell.y - 1);
+			adj = Point(adj.x, 7);
+		}
+		else if (adj.x < 0) // west
+		{
+			adjCell = Point(cell.x - 1, cell.y);
+			adj = Point(0, adj.y);
+		}
+
+		// check if cell exists.
+		if (!CellExists(adjCell))
+		{
+			BigMap[adjCell] = new Cell;
+			existingCells.push_back(adjCell);
+		}
+	}
 }
 
 bool DunMap::InterCellConnectivityCheck(Point QuestionCell)

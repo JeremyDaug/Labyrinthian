@@ -140,7 +140,9 @@ public:
 
 	// Create Room
 	// Returns true if the room was created, false if the room already exists.
-	bool CreateRoom(Point pos); // no randomizer, make blank room.
+	bool CreateBlankRoom(Point pos); // no randomizer, make blank room.
+	bool CreateBlankRoomInCell(Point cell, Point room);
+
 	bool CreateRoom(Point pos, int(*randomizer)());
 	bool CreateRoom(long x, long y, int(*randomizer)()) { return CreateRoom(Point(x, y), randomizer); }
 

@@ -113,17 +113,21 @@ class DunMap
     // The Map itself.
 	std::map<Point, Cell*> BigMap;
 
+	// A hard setter for creating room connections, adds the connection regardless of the rooms, but ensures
+	// the consistency of the map remains.
+	bool SetRoomConnections(Point cell, Point room, Direction dir, ConnStat connType);
+
 public:
 	// Functions
 	// Check for interconnectivity between cells (ensure they match up).
 	bool InterCellConnectivityCheck(Point QuestionCell);
 
 	// Point Data Setters
-	void setData(Point pos, int ndata, int level) { curr->setData(pos, ndata, level); }
-	void setDataInCell(Point CellPos, Point ptPos, int ndata, int level);
+	void setData(Point& pos, int ndata, int level) { curr->setData(pos, ndata, level); }
+	void setDataInCell(Point& CellPos, Point& ptPos, int ndata, int level);
 
 	// Find if a Cell exists already
-	bool CellExists(Point pos);
+	bool CellExists(Point& pos);
 	bool CellExists(long x, long y) { return CellExists(Point(x, y)); }
 
 	// Let's start building.
@@ -132,18 +136,23 @@ public:
 	// Destructor
 	~DunMap();
 
+	// Create room connection even between cells. This will only go through if the rooms don't exist.
+	// returns false if the room already exists.
+	bool CreateRoomConnection(Point& cell, Point& room, Direction dir, ConnStat connType);
+
 	// Create Cell
 	// Returns True if it was created, false if the cell is already taken.
 	// Param: Pos, the point of the cell
-	bool CreateCell(Point pos);
+	bool CreateCell(Point& pos);
 	bool CreateCell(long x, long y) { return CreateCell(Point(x, y)); }
 
-	// Create Room
+	// Create Blank room. This is for testing purposes. It is a room with one type of each connection type.
+	// We this will be used to test creation based on connection logic.
 	// Returns true if the room was created, false if the room already exists.
-	bool CreateBlankRoom(Point pos); // no randomizer, make blank room.
-	bool CreateBlankRoomInCell(Point cell, Point room);
+	bool CreateBlankRoom(Point& pos); // no randomizer, make blank room.
+	bool CreateBlankRoomInCell(Point& cell, Point room);
 
-	bool CreateRoom(Point pos, int(*randomizer)());
+	bool CreateRoom(Point& pos, int(*randomizer)());
 	bool CreateRoom(long x, long y, int(*randomizer)()) { return CreateRoom(Point(x, y), randomizer); }
 
 	// Loader Function (placeholder)

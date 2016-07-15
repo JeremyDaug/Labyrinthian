@@ -1,6 +1,7 @@
 // Testing file to double check Labyrinthian work without doing a full run of the program.
 
 #include<iostream>
+#include<fstream>
 #include<string>
 #include "DunMap.h"
 

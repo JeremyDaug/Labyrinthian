@@ -57,6 +57,16 @@ void CellTests()
 {
 	Print("Cell Tests");
 	Cell x;
+
+	// check the tiles of the room
+	for (int i = 63; i >= 0; --i)
+	{
+		for (int j = 0; j < 64; ++j)
+		{
+			std::cout << x.getData(Point(j, i))[0] << ' ';
+		}
+		std::cout << std::endl;
+	}
 	
 	// Check default connectivity (everything should be 0).
 	if (x.ConnectivityCheck())
@@ -65,11 +75,11 @@ void CellTests()
 		Print("Failed: Default Connectivity Check");
 
 	// Double check the default connectivity by printing it.
-	for (int i = 0; i < 8; ++i)
+	for (int i = 7; i >= 0; --i)
 	{
 		for (int j = 0; j < 8; ++j)
 		{
-			std::cout << (int)x.getConnectivity(Point(i, j)) << ' ';
+			std::cout << (unsigned int)x.getConnectivity(Point(j, i)) << ' ';
 		}
 		std::cout << std::endl;
 	}
@@ -84,10 +94,70 @@ void CellTests()
 	// get/set connectivity for a room.
 	x.setConnectivity(Point(2, 2), north, unlocked);
 	x.setConnectivity(Point(2, 3), south, unlocked);
-	if (x.getConnectivity(Point(2, 2)) == (128 + 64))
-		Print("Passed: get/set connectivity.");
+	x.setConnectivity(Point(4, 4), east, open);
+	x.setConnectivity(Point(5, 4), west, open);
+	// output tests
+	if (x.getConnectivity(Point(2, 2)) == unlocked*64)
+		Print("Passed: get/set 2,2 connectivity");
 	else
-		Print("Failed: get/set Connectiity");
+		Print("Failed: get/set 2,2 Connectivity");
+	////////////
+	if (x.getConnectivity(Point(2, 3)) == unlocked * 4)
+		Print("Passed: get/set 2,3 connectivity");
+	else
+		Print("Failed: get/set 2,3 Connectivity");
+	////////////
+	if(x.getConnectivity(Point(4,4)) == (open*16))
+		Print("Passed: get/set 4,4 connectivity");
+	else
+		Print("Failed: get/set 4,4 Connectivity");
+	/////////////
+	if (x.getConnectivity(Point(5, 4)) == open)
+		Print("Passed: get/set 5,4 connectivity");
+	else
+		Print("Failed: get/set 5,4 Connectivity");
+
+	// Check Directional Connectivity
+	if (x.getDirectionalConnectivity(Point(2, 2), north) == unlocked)
+		Print("Passed: 2,2 Directional connectivity");
+	else
+		Print("Failed: 2,2 Directional Connectivity");
+	////////////
+	if (x.getDirectionalConnectivity(Point(2, 3), south) == unlocked)
+		Print("Passed: 2,3 Directional connectivity");
+	else
+		Print("Failed: 2,3 Directional Connectivity");
+	////////////
+	if (x.getDirectionalConnectivity(Point(4, 4), east) == open)
+		Print("Passed: 4,4 Directional connectivity");
+	else
+		Print("Failed: 4,4  Directional Connectivity");
+	/////////////
+	if (x.getDirectionalConnectivity(Point(5, 4), west) == open)
+		Print("Passed: 5,4 Directional connectivity");
+	else
+		Print("Failed: 5,4 Directional Connectivity");
+		
+	// check room connectivity
+	if (x.checkRoomConnections(Point(2, 2)))
+		Print("Passed: 2,2 connect true");
+	else
+		Print("Failed: 2,2 connect false");
+
+	if (x.checkRoomConnections(Point(2, 3)))
+		Print("Passed: 2,3 connect true");
+	else
+		Print("Failed: 2,3 connect false");
+
+	if (x.checkRoomConnections(Point(4, 4)))
+		Print("Passed: 4,4 connect true");
+	else
+		Print("Failed: 4,4 connect false");
+
+	if (x.checkRoomConnections(Point(5, 4)))
+		Print("Passed: 5,4 connect true");
+	else
+		Print("Failed: 5,4 connect false");
 
 	// Check connectivity
 	if (x.ConnectivityCheck())
@@ -96,11 +166,11 @@ void CellTests()
 		Print("Failed: Connectivity Check");
 
 	// Double check the connectivity by printing it.
-	for (int i = 0; i < 8; ++i)
+	for (int i = 7; i >= 0; --i)
 	{
 		for (int j = 0; j < 8; ++j)
 		{
-			std::cout << (int)x.getConnectivity(Point(i, j)) << ' ';
+			std::cout << (unsigned int)x.getConnectivity(Point(j, i)) << ' ';
 		}
 		std::cout << std::endl;
 	}
@@ -108,5 +178,13 @@ void CellTests()
 
 void DunMapTests()
 {
+	Print("...DunMap Checks...");
+	// Create a dunmap
+	DunMap x = DunMap();
 
+	// test Connectivity
+	if (x.ConnectivityConsistencyCheck())
+		Print("Passed: Connectivity Consistency Check");
+	else
+		Print("Failed: Connectivity Consistency Check");
 }

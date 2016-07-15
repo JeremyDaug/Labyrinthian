@@ -1,63 +1,51 @@
 #include "DunMap.h"
 
-bool Cell::roomConnValid(Point room, char dir)
-{
-	Point adj;
-	char undir; // the opposite direction
-	if (dir == north)
-	{
-		adj.x = room.x;
-		adj.y = room.y + 1;
-		undir = south;
-	}
-	if (dir == east)
-	{
-		adj.x = room.x + 1;
-		adj.y = room.y;
-		undir = west;
-	}
-	if (dir == south)
-	{
-		adj.x = room.x;
-		adj.y = room.y - 1;
-		undir = north;
-	}
-	if (dir == west)
-	{
-		adj.x = room.x - 1;
-		adj.y = room.y;
-		undir = east;
-	}
-	// if inside the cell do the check. else return True.
-	if ((0 <= adj.x) &&
-		(0 <= adj.y) &&
-		(adj.x < 8)  &&
-		(adj.y < 8) )
-	{
-		return (
-			connMask(getConnectivity(room), dir) == connMask(getConnectivity(adj), undir)// check if connections are equal
-			|| 
-			(getConnectivity(room) == 0 && connMask(getConnectivity(adj), undir) == 2) // If one is unmade and the other is locked
-			||
-			(connMask(getConnectivity(room), dir) == 2 && getConnectivity(adj) == 0)// or the other way around.
-			);
-	}
-	return true;
-}
-
-char Cell::reverseMask(char dir, ConnStat type)
+int Cell::reverseMask(Direction dir, ConnStat type)
 {
 	if (dir == north)
+	{
 		return type * 64;
+	}
 	else if (dir == east)
+	{
 		return type * 16;
+	}
 	else if (dir == south)
+	{
 		return type * 4;
+	}
 	else if (dir == west)
+	{
 		return type;
+	}
 	else
 		return 0;
-	return 0;
+}
+
+bool Cell::checkRoomConnections(Point pos)
+{
+	Point n(pos.x, pos.y + 1), e(pos.x + 1, pos.y), s(pos.x, pos.y - 1), w(pos.x - 1, pos.y);
+	if (n.y < 8)
+	{
+		if (getDirectionalConnectivity(n, south) != getDirectionalConnectivity(pos, north))
+			return false;
+	}
+	if (e.x < 8)
+	{
+		if (getDirectionalConnectivity(e, west) != getDirectionalConnectivity(pos, east))
+			return false;
+	}
+	if (s.y >= 0)
+	{
+		if (getDirectionalConnectivity(s, north) != getDirectionalConnectivity(pos, south))
+			return false;
+	}
+	if (w.x >= 0)
+	{
+		if (getDirectionalConnectivity(w, east) != getDirectionalConnectivity(pos, west))
+			return false;
+	}
+	return true;
 }
 
 bool Cell::ConnectivityCheck()
@@ -70,16 +58,7 @@ bool Cell::ConnectivityCheck()
 		{
 			// Begin checks
 			// N
-			if (j + 1 < 8 && !roomConnValid(Point(i,j), north))
-					return false;
-			// E
-			if (i + 1 < 8 && !roomConnValid(Point(i,j), east))
-					return false;
-			// S
-			if (j - 1 >= 0 && !roomConnValid(Point(i,j), south))
-					return false;
-			// W
-			if (i - 1 >= 0 && !roomConnValid(Point(i,j), west))
+			if (!checkRoomConnections(Point(i, j)))
 					return false;
 		}
 	}
@@ -126,29 +105,29 @@ Cell::Cell()
 	}
 }
 
-void Cell::setConnectivity(Point pos, char Dir, ConnStat type)
+void Cell::setConnectivity(Point pos, Direction Dir, ConnStat type)
 {
 	if (0 <= pos.x && pos.x < 8 && 0 <= pos.y && pos.y < 8)
 	{
-		char connStatus = connectivity[pos.x][pos.y];
+		short connStatus = connectivity[pos.x][pos.y];
 		if (Dir == north)
 		{
-			connStatus -= connStatus | (64 + 128);
-			connStatus += reverseMask(Dir, type) * 64;
+			connStatus -= connStatus & Nmask;
+			connStatus = reverseMask(Dir, type) + connStatus;
 		}
 		else if (Dir == east)
 		{
-			connStatus -= connStatus | (16 + 32);
-			connStatus += reverseMask(Dir, type) * 16;
+			connStatus -= connStatus & Emask;
+			connStatus += reverseMask(Dir, type);
 		}
 		else if (Dir == south)
 		{
-			connStatus -= connStatus | (4 + 8);
-			connStatus += reverseMask(Dir, type) * 4;
+			connStatus -= connStatus & Smask;
+			connStatus += reverseMask(Dir, type);
 		}
 		else if (Dir == west)
 		{
-			connStatus -= connStatus | (1 + 2);
+			connStatus -= connStatus & Wmask;
 			connStatus += reverseMask(Dir, type);
 		}
 		
@@ -156,23 +135,23 @@ void Cell::setConnectivity(Point pos, char Dir, ConnStat type)
 	}
 }
 
-ConnStat Cell::connMask(char connectivity, char dir)
+ConnStat Cell::connMask(short connectivity, Direction dir)
 {
 	if (dir == north)
-		return ConnStat(((64 + 128) | connectivity) / 64);
+		return ConnStat((Nmask & connectivity) / 64);
 	else if (dir == east)
-		return ConnStat(((16 + 32) | connectivity) / 16);
+		return ConnStat((Emask & connectivity) / 16);
 	else if (dir == south)
-		return ConnStat(((4 + 8) | connectivity) / 4);
+		return ConnStat((Smask & connectivity) / 4);
 	else if (dir == west)
-		return ConnStat((1 + 2) | connectivity);
+		return ConnStat((Wmask & connectivity));
 	else
 		return ConnStat(0);
 }
 
-ConnStat Cell::getDirectionalConnectivity(Point pos, char Dir)
+ConnStat Cell::getDirectionalConnectivity(Point& pos, Direction Dir)
 {
-	char connect = getConnectivity(pos);
+	short connect = getConnectivity(pos);
 	return connMask(connect, Dir);
 }
 
@@ -306,6 +285,11 @@ bool DunMap::CreateCell(Point pos)
 	existingCells.push_back(pos);
 	BigMap[pos] = new Cell;
 	return true;
+}
+
+bool DunMap::CreateRoom(Point pos)
+{
+	return false;
 }
 
 bool DunMap::ConnectivityConsistencyCheck()

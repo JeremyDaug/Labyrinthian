@@ -155,6 +155,11 @@ ConnStat Cell::getDirectionalConnectivity(Point& pos, Direction Dir)
 	return connMask(connect, Dir);
 }
 
+bool DunMap::SetRoomConnections(Point cell, Point room, Direction dir, ConnStat connType)
+{
+	return false;
+}
+
 bool DunMap::InterCellConnectivityCheck(Point QuestionCell)
 {
 	/*
@@ -276,6 +281,11 @@ DunMap::~DunMap()
 	}
 }
 
+bool DunMap::CreateRoomConnection(Point cell, Point room, Direction dir, ConnStat connType)
+{
+	return false;
+}
+
 bool DunMap::CreateCell(Point pos)
 {
 	// check that the cell doesnt' already exist.
@@ -287,8 +297,9 @@ bool DunMap::CreateCell(Point pos)
 	return true;
 }
 
-bool DunMap::CreateBlankRoom(Point pos)
+bool DunMap::CreateBlankRoom(Point& pos)
 {
+	CreateRoomConnection()
 	return false;
 }
 

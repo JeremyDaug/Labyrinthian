@@ -47,9 +47,12 @@ Character
             ->Calculation
             ->Discect
         ->Itu Based
-            ->
+            ->Research Magic
+			->Thaumaturgy
+			->Problem Solving
         ->Wil Based
-            ->
+            ->Hold focus
+			->Reject Manipulation
         ->Mixed Basis
     ->Enhancements
         ->Boosters
@@ -57,6 +60,25 @@ Character
         ->Transformations
         ->Cybernetics
         ->Golemurgy
+
+Starting Options
+	Charater choses a default class and get's stats in line with that.
+
+	The Ally is an option that can increase or decrease the difficulty of the game.
+		- You may chose the gender (unless they are a romancer ally)
+		- Modifier
+			- Romancer: A person who you have become close with during your captivity. They start with a high romantic affinity to you. Upon meeting the player they are effectively ready to be wed immediately. Always opposite in gender, cannot be rival.
+		- Options
+			- Grower: Capable of farming and growing crops for food. Get extra growable resources to start.
+			- Crafter: Capable of making things from material. Must be given tools, but starts at a higher level of crafting immediately.
+			- Comrade in Arms: A capable fighter and ally on the field. Able to hold their own in melee. Start at the same level as you.
+			- Sniper: A capable ranged character. Weak in melee, but good against ranged enemies and hitting from range.
+			- Tank: Capable defender, not strong in melee, but hardy and capable of taking lots of damage.
+			- Mage: Magic user, weak to start, but can grow into power nicely as you discover magic.
+			- Engineer: Tech user, weak overall, but has passeble crafting and strong use with tech.
+			- Sage: Magic user, but not a combatant, helps with study of magic.
+			- Scientist: Tech user, not a combatant, helps with study of tech.
+
 
 Statistics
 

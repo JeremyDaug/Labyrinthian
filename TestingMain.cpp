@@ -187,4 +187,6 @@ void DunMapTests()
 		Print("Passed: Connectivity Consistency Check");
 	else
 		Print("Failed: Connectivity Consistency Check");
+
+	Print("...Testing Complete...");
 }

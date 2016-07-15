@@ -287,7 +287,12 @@ bool DunMap::CreateCell(Point pos)
 	return true;
 }
 
-bool DunMap::CreateRoom(Point pos)
+bool DunMap::CreateBlankRoom(Point pos)
+{
+	return false;
+}
+
+bool DunMap::CreateBlankRoomInCell(Point cell, Point room)
 {
 	return false;
 }

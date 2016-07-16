@@ -51,18 +51,25 @@ enum Direction : char
 
 class Cell
 {
-	// what is in the room.
+	/*
+	Cells are to never be used in any other class directly. You should not pass, nor return a cell
+	to or from another class. You can screw it up and this class has few safety measures built directly
+	into it. If needed they will be added, but I'd rather not bother.
+	*/
+
+	// what is in the cell.
 	int data[64][64][5];
 	// how the rooms connect to each other.
-	int connectivity[8][8];
+	short connectivity[8][8];
 	/*
-	the data in the char has 4 states, 0-closed, 1-Open, 2-locked, and 3-unlocked.
-	A char has bits and each pair creates the end result.
+	the data in the short has 4 states, 0-closed, 1-Open, 2-locked, and 3-unlocked.
+	A short is used as a bit array for ease of use. If you need to access it, use the connMask function or
+	getDirectionalConnectivity function.
 	first - N, second - E, third - S, fourth - W.
-	connectivity that is completely closed (ie. == 0) or locked, it is considered nonexistent. 
+	connectivity that is completely closed (ie. == 0), it is considered nonexistent. 
 
-	if a pair of rooms have a mismatch where one is == 0 and the other is locked, the test does not fail.
-	This case indicates that the room the lock points to does not exist.
+	The only allowed mismatch in connection is between a room with a locked connection and a room that
+	doesn't exist (ie has a connectivity of 0)
 	*/
 
 	// Utility mask for connectivity
@@ -92,12 +99,15 @@ public:
 	// returns the 0-3, for the state of the room, not the full char.
 	ConnStat getDirectionalConnectivity(Point& pos, Direction Dir); // tested
 	ConnStat getDirectionalConnectivity(int x, int y, Direction Dir) { return getDirectionalConnectivity(Point(x, y), Dir); } // tested
+
+	bool roomExists(Point pos) { return connectivity[pos.x][pos.y] != 0; };
 };
 
 class DunMap
 {
     // Current Cell
 	Cell* curr;
+	Point currPos;
 
     // Surrounding Cells
 	/* The layout of near cells is.
@@ -114,8 +124,8 @@ class DunMap
 	std::map<Point, Cell*> BigMap;
 
 	// A hard setter for creating room connections, adds the connection regardless of the rooms, but ensures
-	// the consistency of the map remains.
-	bool SetRoomConnections(Point cell, Point room, Direction dir, ConnStat connType);
+	// the consistency of the map remains. Will even create a 'dead room' that is completely detached.
+	void SetRoomConnections(Point& cell, Point& room, Direction dir, ConnStat connType);
 
 public:
 	// Functions
@@ -138,7 +148,8 @@ public:
 
 	// Create room connection even between cells. This will only go through if the rooms don't exist.
 	// returns false if the room already exists.
-	bool CreateRoomConnection(Point& cell, Point& room, Direction dir, ConnStat connType);
+	bool CreateRoomConnection(Point& room, Direction dir, ConnStat connType) { return CreateRoomConnectionInCell(currPos, room, dir, connType); }
+	bool CreateRoomConnectionInCell(Point& cell, Point& room, Direction dir, ConnStat connType);
 
 	// Create Cell
 	// Returns True if it was created, false if the cell is already taken.

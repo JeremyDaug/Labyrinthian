@@ -155,9 +155,61 @@ ConnStat Cell::getDirectionalConnectivity(Point& pos, Direction Dir)
 	return connMask(connect, Dir);
 }
 
-bool DunMap::SetRoomConnections(Point cell, Point room, Direction dir, ConnStat connType)
+void DunMap::SetRoomConnections(Point& cell, Point& room, Direction dir, ConnStat connType)
 {
-	return false;
+	Direction undir;
+	Point adj;
+	if (dir == north)
+	{
+		undir = south;
+		adj = Point(room.x, room.y + 1);
+	}
+	else if (dir == east)
+	{
+		undir = west;
+		adj = Point(room.x + 1, room.y);
+	}
+	else if (dir == south)
+	{
+		undir = north;
+		adj = Point(room.x, room.y - 1);
+	}
+	else if (dir == west)
+	{
+		undir = east;
+		adj = Point(room.x - 1, room.y);
+	}
+	if (!(0 <= adj.x && adj.x < 8 && 0 <= adj.y && adj.y < 8))
+	{
+		Point adjCell;
+		if (adj.y > 7) // north
+		{
+			adjCell = Point(cell.x, cell.y + 1);
+			adj = Point(adj.x, 0);
+		}
+		else if (adj.x > 7) // east
+		{
+			adjCell = Point(cell.x + 1, cell.y);
+			adj = Point(0, adj.y);
+		}
+		else if (adj.y < 0) // South
+		{
+			adjCell = Point(cell.x, cell.y - 1);
+			adj = Point(adj.x, 7);
+		}
+		else if (adj.x < 0) // west
+		{
+			adjCell = Point(cell.x - 1, cell.y);
+			adj = Point(0, adj.y);
+		}
+
+		// check if cell exists.
+		if (!CellExists(adjCell))
+		{
+			BigMap[adjCell] = new Cell;
+			existingCells.push_back(adjCell);
+		}
+	}
 }
 
 bool DunMap::InterCellConnectivityCheck(Point QuestionCell)
@@ -217,7 +269,7 @@ bool DunMap::InterCellConnectivityCheck(Point QuestionCell)
 	return true;
 }
 
-bool DunMap::CellExists(Point pos)
+bool DunMap::CellExists(Point& pos)
 {
 	for (unsigned int i = 0; i < existingCells.size(); ++i)
 	{
@@ -227,7 +279,7 @@ bool DunMap::CellExists(Point pos)
 	return false;
 }
 
-void DunMap::setDataInCell(Point CellPos, Point ptPos, int ndata, int level)
+void DunMap::setDataInCell(Point& CellPos, Point& ptPos, int ndata, int level)
 {
 	if( BigMap.find(CellPos) != BigMap.end())
 		BigMap[CellPos]->setData(ptPos, ndata, level);
@@ -239,6 +291,7 @@ DunMap::DunMap()
 	curr = new Cell;
 
 	BigMap[Point(0, 0)] = curr;
+	currPos = Point(0, 0);
 
 	// create default nearby cells.
 	for (int i = 0; i < 9; ++i)
@@ -281,12 +334,12 @@ DunMap::~DunMap()
 	}
 }
 
-bool DunMap::CreateRoomConnection(Point cell, Point room, Direction dir, ConnStat connType)
+bool DunMap::CreateRoomConnectionInCell(Point& cell, Point& room, Direction dir, ConnStat connType)
 {
 	return false;
 }
 
-bool DunMap::CreateCell(Point pos)
+bool DunMap::CreateCell(Point& pos)
 {
 	// check that the cell doesnt' already exist.
 	if (!CellExists(pos))
@@ -299,11 +352,16 @@ bool DunMap::CreateCell(Point pos)
 
 bool DunMap::CreateBlankRoom(Point& pos)
 {
-	CreateRoomConnection()
-	return false;
+	Point testCell = Point(0, 0);
+	if(!CreateRoomConnection(pos, north, unlocked))
+		return false; // North is unlocked
+	SetRoomConnections(testCell, pos, east, locked);// east is locked
+	SetRoomConnections(testCell, pos, south, open);// south is open
+	SetRoomConnections(testCell, pos, west, closed);// west is closed
+	return true;
 }
 
-bool DunMap::CreateBlankRoomInCell(Point cell, Point room)
+bool DunMap::CreateBlankRoomInCell(Point& cell, Point room)
 {
 	return false;
 }

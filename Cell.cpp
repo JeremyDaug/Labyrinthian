@@ -22,6 +22,129 @@ int Cell::reverseMask(Direction dir, ConnStat type)
 		return 0;
 }
 
+void Cell::updateWallsToConnectivity()
+{
+	// run through each room assuming it's connectivity is true.
+	for (int x = 0; x < 8; ++x)
+	{
+		for (int y = 0; y < 8; ++y)
+		{
+			// don't bother checking the walls, just update them regardless.
+			updateWallsToRoom(Point(x, y));
+		}
+	}
+}
+
+void Cell::updateWallsToRoom(Point room)
+{
+	int x = room.x;
+	int y = room.y;
+	ConnStat N = getDirectionalConnectivity(Point(x, y), north);
+	ConnStat E = getDirectionalConnectivity(Point(x, y), east);
+	ConnStat S = getDirectionalConnectivity(Point(x, y), south);
+	ConnStat W = getDirectionalConnectivity(Point(x, y), west);
+	// 1-6 because we ignore the corners. may update to include them later.
+	for (int roomX = 1; roomX < 7; ++roomX)
+	{
+		// N
+		if (N == closed)
+		{
+			setData(Point(x * 8 + roomX, 8 * y + 7), 1, 0);
+		}
+		else if (N == open)
+		{
+			setData(Point(x * 8 + roomX, 8 * y + 7), 0, 0);
+		}
+		else if (N == locked)
+		{
+			if (roomX == 3 || roomX == 4)
+				setData(Point(x * 8 + roomX, 8 * y + 7), 2, 0);
+			else
+				setData(Point(x * 8 + roomX, 8 * y + 7), 1, 0);
+		}
+		else if (N == unlocked)
+		{
+			if (roomX == 3 || roomX == 4)
+				setData(Point(x * 8 + roomX, 8 * y + 7), 3, 0);
+			else
+				setData(Point(x * 8 + roomX, 8 * y + 7), 1, 0);
+		}
+		// S
+		if (S == closed)
+		{
+			setData(Point(x * 8 + roomX, 8 * y), 1, 0);
+		}
+		else if (S == open)
+		{
+			setData(Point(x * 8 + roomX, 8 * y), 0, 0);
+		}
+		else if (S == locked)
+		{
+			if (roomX == 3 || roomX == 4)
+				setData(Point(x * 8 + roomX, 8 * y), 2, 0);
+			else
+				setData(Point(x * 8 + roomX, 8 * y), 1, 0);
+		}
+		else if (S == unlocked)
+		{
+			if (roomX == 3 || roomX == 4)
+				setData(Point(x * 8 + roomX, 8 * y), 3, 0);
+			else
+				setData(Point(x * 8 + roomX, 8 * y), 1, 0);
+		}
+	}
+	for (int roomY = 1; roomY < 7; ++roomY)
+	{
+
+		// E
+		if (E == closed)
+		{
+			setData(Point(x * 8 + 7, 8 * y + roomY), 1, 0);
+		}
+		else if (E == open)
+		{
+			setData(Point(x * 8 + 7, 8 * y + roomY), 0, 0);
+		}
+		else if (E == locked)
+		{
+			if (roomY == 3 || roomY == 4)
+				setData(Point(x * 8 + 7, 8 * y + roomY), 2, 0);
+			else
+				setData(Point(x * 8 + 7, 8 * y + roomY), 1, 0);
+		}
+		else if (E == unlocked)
+		{
+			if (roomY == 3 || roomY == 4)
+				setData(Point(x * 8 + 7, 8 * y + roomY), 3, 0);
+			else
+				setData(Point(x * 8 + 7, 8 * y + roomY), 1, 0);
+		}
+		// W
+		if (W == closed)
+		{
+			setData(Point(x * 8, 8 * y + roomY), 1, 0);
+		}
+		else if (W == open)
+		{
+			setData(Point(x * 8, 8 * y + roomY), 0, 0);
+		}
+		else if (W == locked)
+		{
+			if (roomY == 3 || roomY == 4)
+				setData(Point(x * 8, 8 * y + roomY), 2, 0);
+			else
+				setData(Point(x * 8, 8 * y + roomY), 1, 0);
+		}
+		else if (W == unlocked)
+		{
+			if (roomY == 3 || roomY == 4)
+				setData(Point(x * 8, 8 * y + roomY), 3, 0);
+			else
+				setData(Point(x * 8, 8 * y + roomY), 1, 0);
+		}
+	}
+}
+
 bool Cell::checkRoomConnections(Point pos)
 {
 	Point n(pos.x, pos.y + 1), e(pos.x + 1, pos.y), s(pos.x, pos.y - 1), w(pos.x - 1, pos.y);

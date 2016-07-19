@@ -2,9 +2,27 @@ Storage overview
 
 Character
     ->Specializations
+		--- Like classes, though more generic in some ways. The key features of Specs are
+		--- the abilities they give. They also give a unique form of buff that is permanent
+		--- and cannot explicitely removed (they are treated as though directly part of the
+		--- stat or skill they buff.)
         ->Abilities
+			--- Explained in more detail under the Unspec Abilities, these abilites are tied
+			--- to the spec that holds them. They may not be exclusive, to the class or even
+			--- require a class to be gotten. If the player already has the ability and the
+			--- ability could reasonably stack it will.
         ->Stat Buffs
+			--- Self explanatory honestly. (directed at str, dex, end, int, itu, and wil explicitely)
         ->Skill Buffs
+			--- self explanatory (goes to skills and is a bonus to them.)
+	->Unspec Abilities
+		--- You gain the ability to access these abilities as you level up flatly, these are not 
+		--- dependent on spec, but usually have skill requirements. If you lose the reqs you lose
+		--- the ability. (if perm you must replace it, if temp you just lose it till the temp wears 
+		--- off)
+		->Abilities
+			--- These grant new things to the character. An ability can be an attack (firebolt),
+			--- a buff (haste), an allowance (craft robot), or a new option (fly).
     ->Weapons
         ->Bludgeoning
         ->Slashing
@@ -18,12 +36,16 @@ Character
         ->Hard
         ->Dodge
     ->Equipment
-        ->Rings
-        ->Bands
+        ->2 Rings
+        ->2 Bands
         ->Boots
         ->Gloves
         ->Cape
         ->Eyes
+		->belt
+		->pack
+		->neck
+		->helmet
     ->Skills
         ->Strength Based
             ->Break
@@ -47,9 +69,12 @@ Character
             ->Calculation
             ->Discect
         ->Itu Based
-            ->
+            ->Research Magic
+			->Thaumaturgy
+			->Problem Solving
         ->Wil Based
-            ->
+            ->Hold focus
+			->Reject Manipulation
         ->Mixed Basis
     ->Enhancements
         ->Boosters
@@ -57,6 +82,25 @@ Character
         ->Transformations
         ->Cybernetics
         ->Golemurgy
+
+Starting Options
+	Charater choses a default class and get's stats in line with that.
+
+	The Ally is an option that can increase or decrease the difficulty of the game.
+		- You may chose the gender (unless they are a romancer ally)
+		- Modifier
+			- Romancer: A person who you have become close with during your captivity. They start with a high romantic affinity to you. Upon meeting the player they are effectively ready to be wed immediately. Always opposite in gender, cannot be rival.
+		- Options
+			- Grower: Capable of farming and growing crops for food. Get extra growable resources to start.
+			- Crafter: Capable of making things from material. Must be given tools, but starts at a higher level of crafting immediately.
+			- Comrade in Arms: A capable fighter and ally on the field. Able to hold their own in melee. Start at the same level as you.
+			- Sniper: A capable ranged character. Weak in melee, but good against ranged enemies and hitting from range.
+			- Tank: Capable defender, not strong in melee, but hardy and capable of taking lots of damage.
+			- Mage: Magic user, weak to start, but can grow into power nicely as you discover magic.
+			- Engineer: Tech user, weak overall, but has passeble crafting and strong use with tech.
+			- Sage: Magic user, but not a combatant, helps with study of magic.
+			- Scientist: Tech user, not a combatant, helps with study of tech.
+
 
 Statistics
 
@@ -89,6 +133,24 @@ Statistics
         Like endurance, this is mental fortitude and capacity for mental damage.
         - It defines how long you can go without sleep.
         - Every point is more MP per level.
+
+	Health Points HP
+		Created by endurance and level. This is the ammount of damage the character can take.
+		- Decreases with damage and at threshholds it adds penalties.
+	
+	Stamina Points SP
+		Created by endurance. This is the ammount of energy you have as a character.
+		- Can be used for special attacks and maneuvers.
+		- Drains over time as you need food to sustain yourself.
+
+	Mental Points MP
+		Created by Willpower and Level, this is the ammount of mental damage you can take and still function.
+		- Decreases with mental attacks, at threshholds it penalizes the character.
+
+	Will Points WP
+		Created by Willpower, this is the ammount of mental energy you have as a character.
+		- Can be used for special attacks and similar things.
+		- Drains over time as you need to sleep to maintain your will.
 
 Disorganized Thoughts
 Lineage System and Character interactions

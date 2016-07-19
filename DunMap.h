@@ -1,12 +1,10 @@
 #ifndef DUNMAP_H
 #define DUNMAP_H
-// TODO Find why the vector isn't liked.
 
 #include<map>
 #include<vector>
 
 #include "Cell.h"
-
 
 class DunMap
 {

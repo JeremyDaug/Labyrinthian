@@ -74,6 +74,13 @@ class Cell
 
 	int reverseMask(Direction dir, ConnStat type);
 
+	// a more specific wall updater function to be used on specific rooms.
+	void updateWallsToRoom(Point room);
+
+	// update the walls to match their connectivity
+	// checks all rooms for this
+	void updateWallsToConnectivity();
+
 public:
 	// Check all the rooms for proper connection to this room.
 	bool checkRoomConnections(Point pos); // Tested
@@ -84,15 +91,14 @@ public:
 			// setters.
 	void setData(Point pos, int ndata, int level) { data[pos.x][pos.y][level] = ndata; } // tested
 	void setConnectivity(Point pos, Direction Dir, ConnStat type); // Tested
-																   // getters for tile data.
+	// getters for tile data.
 	int* getData(int x, int y) { return data[x][y]; } // tested
 	int* getData(Point pos) { return data[pos.x][pos.y]; } // tested
 														   // getter for all connectivity of a room.
 	short getConnectivity(int x, int y) { return connectivity[x][y]; } // tested
-	short getConnectivity(const Point& pos) { return connectivity[pos.x][pos.y]; } // tested
+	short getConnectivity(const Point& pos) { return connectivity[pos.x][pos.y]; } // tested																	   // getter of specific connectivity
 
-																				   // getter of specific connectivity
-																				   // returns the 0-3, for the state of the room, not the full char.
+	// returns the 0-3, for the state of the room, not the full char.
 	ConnStat getDirectionalConnectivity(Point& pos, Direction Dir); // tested
 	ConnStat getDirectionalConnectivity(int x, int y, Direction Dir) { return getDirectionalConnectivity(Point(x, y), Dir); } // tested
 

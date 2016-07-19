@@ -14,28 +14,28 @@ Entity::~Entity()
 
 int Entity::maxHP() 
 {
-	return std::floor(End() * (Level() * scale.hp));
+	return (int)std::floor(End() * (Level() * scale.hp));
 }
 
 int Entity::maxMP()
 {
-	return std::floor(Wil() * (Level() * scale.mp));
+	return (int)std::floor(Wil() * (Level() * scale.mp));
 }
 
 int Entity::maxSP()
 {
-	return std::floor(End()*scale.sp);
+	return (int)std::floor(End()*scale.sp);
 }
 
 int Entity::maxWP()
 {
-	return std::floor(Wil()*scale.wp);
+	return (int)std::floor(Wil()*scale.wp);
 }
 
 int Entity::Level()
 {
 	int ret = 0;
-	for (int i = 0; i < levels.size; ++i)
+	for (unsigned int i = 0; i < levels.size(); ++i)
 	{
 		ret += levels[i];
 	}

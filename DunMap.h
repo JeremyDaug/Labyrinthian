@@ -30,6 +30,9 @@ class DunMap
 	// the consistency of the map remains. Will even create a 'dead room' that is completely detached.
 	void SetRoomConnections(Point& cell, Point& room, Direction dir, ConnStat connType);
 
+	// Connectivity getter for an arbitrary cell, room, and direction.
+	ConnStat getConnectionFor(Point& cell, Point& room, Direction dir) { return BigMap[cell]->getDirectionalConnectivity(room, dir); }
+
 public:
 	// Functions
 	// Check for interconnectivity between cells (ensure they match up).

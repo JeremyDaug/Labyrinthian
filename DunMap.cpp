@@ -181,6 +181,35 @@ DunMap::~DunMap()
 
 bool DunMap::CreateRoomConnectionInCell(Point& cell, Point& room, Direction dir, ConnStat connType)
 {
+	// check if it's a valid connection to make. 
+	// one must be uncreated, the other must be locked or both must be locked.
+	// If we assume the room we are in exists, we only need to check that the other meets our
+	// criteria.
+	Direction undir;
+	Point adj;
+	if (dir == north)
+	{
+		undir = south;
+		adj = Point(room.x, room.y + 1);
+	}
+	else if(dir == east)
+	{
+		undir = west;
+		adj = Point(room.x + 1, room.y);
+	}
+	else if (dir == south)
+	{
+		undir = north;
+		adj = Point(room.x - 1, room.y);
+	}
+	else if (dir == west)
+	{
+		undir = east;
+		adj = Point(room.x, room.y - 1);
+	}
+
+	if()
+	
 	return false;
 }
 

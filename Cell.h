@@ -78,7 +78,7 @@ class Cell
 	void updateWallsToRoom(Point room);
 
 	// update the walls to match their connectivity
-	// checks all rooms for this
+	// checks all rooms for this, assume everything is true.
 	void updateWallsToConnectivity();
 
 public:

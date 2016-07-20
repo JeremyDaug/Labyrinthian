@@ -2,9 +2,27 @@ Storage overview
 
 Character
     ->Specializations
+		--- Like classes, though more generic in some ways. The key features of Specs are
+		--- the abilities they give. They also give a unique form of buff that is permanent
+		--- and cannot explicitely removed (they are treated as though directly part of the
+		--- stat or skill they buff.)
         ->Abilities
+			--- Explained in more detail under the Unspec Abilities, these abilites are tied
+			--- to the spec that holds them. They may not be exclusive, to the class or even
+			--- require a class to be gotten. If the player already has the ability and the
+			--- ability could reasonably stack it will.
         ->Stat Buffs
+			--- Self explanatory honestly. (directed at str, dex, end, int, itu, and wil explicitely)
         ->Skill Buffs
+			--- self explanatory (goes to skills and is a bonus to them.)
+	->Unspec Abilities
+		--- You gain the ability to access these abilities as you level up flatly, these are not 
+		--- dependent on spec, but usually have skill requirements. If you lose the reqs you lose
+		--- the ability. (if perm you must replace it, if temp you just lose it till the temp wears 
+		--- off)
+		->Abilities
+			--- These grant new things to the character. An ability can be an attack (firebolt),
+			--- a buff (haste), an allowance (craft robot), or a new option (fly).
     ->Weapons
         ->Bludgeoning
         ->Slashing
@@ -18,12 +36,16 @@ Character
         ->Hard
         ->Dodge
     ->Equipment
-        ->Rings
-        ->Bands
+        ->2 Rings
+        ->2 Bands
         ->Boots
         ->Gloves
         ->Cape
         ->Eyes
+		->belt
+		->pack
+		->neck
+		->helmet
     ->Skills
         ->Strength Based
             ->Break
@@ -111,6 +133,85 @@ Statistics
         Like endurance, this is mental fortitude and capacity for mental damage.
         - It defines how long you can go without sleep.
         - Every point is more MP per level.
+
+	Health Points HP
+		Created by endurance and level. This is the ammount of damage the character can take.
+		- Decreases with damage and at threshholds it adds penalties.
+	
+	Stamina Points SP
+		Created by endurance. This is the ammount of energy you have as a character.
+		- Can be used for special attacks and maneuvers.
+		- Drains over time as you need food to sustain yourself.
+
+	Mental Points MP
+		Created by Willpower and Level, this is the ammount of mental damage you can take and still function.
+		- Decreases with mental attacks, at threshholds it penalizes the character.
+
+	Will Points WP
+		Created by Willpower, this is the ammount of mental energy you have as a character.
+		- Can be used for special attacks and similar things.
+		- Drains over time as you need to sleep to maintain your will.
+
+Map Rules
+	Room connections.
+		There are 4 connections a room can have with an adjacent and they are fairly self explanatory.
+		- Closed
+		- Open
+		- Locked
+		- Unlocked
+	Player interaction with connections.
+		A player cannot pass through a closed connection period.
+		An open connection is passable, if not immediately traversable (pitfalls and all that).
+		A locked connection is impassable, but can be opened. (more on unlocking later)
+		An unlocked connection is passable, and can be locked ( more on locknig later)
+
+	Locking and unlocking.
+		Unlocking a room that does not exist creates the room in the unlocking process.
+		The room that is created is guaranteed to have another door to an uncreated space.
+		If a created room is adjacent to another room, the created room will match the other rooms, new
+		connections will not be made to old rooms.
+
+		Locking a room will do one of 2 things. 
+		If you can still get to that room by another path, it will simply lock the door on both sides
+		and that's it. 
+		If you cannot reach that room by another path the room is destroyed.
+
+		!!!QUESTION RAISED!!!
+		--If you are locking a room from the side of the door that doesn't have the town
+		connected to it, should it destroy the rooms anyway or refuse the lock? Refusing the lock limits the
+		player and doesn't allow them to challenge themself in stupid ways. Allowing it may cause someone
+		accidentally closing it off anyway and effectively stranding them. Locking also effectively means
+		the player is unable to respawn as all data in the locked room will be deleted and lost.
+		-- We can allow it to happen, but have a double prompt warning of the effects to keep an unexpecting
+		player from stumbling into a deathtrap.
+		-- We could also do another where, rather then destroying the original rooms, it simply strands the
+		room the player is in and moves it elsewhere allowing them to possibly find their way back, but
+		increasing the threat of death should they fail to reconnect to the original rooms.
+		   -- This last one, while it sounds interesting, sounds like a pain to implement and could 
+		   wildly shift between an effective game over and pointless reworking of the map. It would also 
+		   potentially break the theming of the directions as the room floats between the four corners to
+		   confuse the player purposefully.
+		!!!QUESTION END!!!
+
+	Altering room connections
+		The player can eventually effect room connections more directly, but the area they should be able
+		to do this should be small so they can't abuse it to get anywhere freely. If the player could do this
+		anywhere they could easily break the challenge of effective traversal and make the boss 100 rooms
+		to the north more like 40 as they remove all paths in the way.
+		It should also disallow creating 'dead rooms' where they could potentially put their
+		'doomsday device/easy button' and hide it safely away until it is completed. Dead room in this case
+		is a room that is entirely closed off, but still exists.
+		A potential limit on them is the ability to ONLY open connections. They cannot create doors to lock,
+		or close the wall off. This means that if they mess up in opening a connection they may have to 
+		destroy and regenerate an entire section of a cell.
+		
+		!!!QUESTION RAISED!!! 
+		-- Should the player be allowed to change connections between cells. The main reason for this is I'm
+		kind of thinking in terms of minecraft's loaded chunks, or in this case cells. Allowing connections
+		between cells to be permanently opened would certainly mess with this mechanic, however if you don't
+		think this is an issue and most (if not all) of the map can be comfortably loaded at the same time,
+		then this should not be an issue and intercell connections would be made possible.
+		!!!Question END!!!
 
 Disorganized Thoughts
 Lineage System and Character interactions

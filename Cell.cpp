@@ -150,23 +150,39 @@ bool Cell::checkRoomConnections(Point pos)
 	Point n(pos.x, pos.y + 1), e(pos.x + 1, pos.y), s(pos.x, pos.y - 1), w(pos.x - 1, pos.y);
 	if (n.y < 8)
 	{
-		if (getDirectionalConnectivity(n, south) != getDirectionalConnectivity(pos, north))
-			return false;
+		if ( (getConnectivity(n) != 0 || getDirectionalConnectivity(pos, north) != locked) ||
+			 (getConnectivity(pos) != 0 || getDirectionalConnectivity(n, south) != locked) )
+		{
+			if (getDirectionalConnectivity(n, south) != getDirectionalConnectivity(pos, north))
+				return false;
+		}
 	}
 	if (e.x < 8)
 	{
-		if (getDirectionalConnectivity(e, west) != getDirectionalConnectivity(pos, east))
-			return false;
+		if ( (getConnectivity(e) != 0 || getDirectionalConnectivity(pos, east) != locked) ||
+			 (getConnectivity(pos) != 0 || getDirectionalConnectivity(e, west) != locked) )
+		{
+			if (getDirectionalConnectivity(e, west) != getDirectionalConnectivity(pos, east))
+				return false;
+		}
 	}
 	if (s.y >= 0)
 	{
-		if (getDirectionalConnectivity(s, north) != getDirectionalConnectivity(pos, south))
-			return false;
+		if ( (getConnectivity(s) != 0 || getDirectionalConnectivity(pos, south) != locked) ||
+			 (getConnectivity(pos) != 0 || getDirectionalConnectivity(s, north) != locked) )
+		{
+			if (getDirectionalConnectivity(s, north) != getDirectionalConnectivity(pos, south))
+				return false;
+		}
 	}
 	if (w.x >= 0)
 	{
-		if (getDirectionalConnectivity(w, east) != getDirectionalConnectivity(pos, west))
-			return false;
+		if ( (getConnectivity(w) != 0 || getDirectionalConnectivity(pos, west) != locked) ||
+			 (getConnectivity(pos) != 0 || getDirectionalConnectivity(w, east) != locked) )
+		{
+			if (getDirectionalConnectivity(w, east) != getDirectionalConnectivity(pos, west))
+				return false;
+		}
 	}
 	return true;
 }
@@ -201,15 +217,7 @@ Cell::Cell()
 				if (((i % 8) == 0 || (i % 8) == 7 ||
 					(j % 8) == 0 || (j % 8) == 7) && k == 0)
 				{
-					if ((i % 8) == 3 || (i % 8) == 4
-						|| (j % 8) == 3 || (j % 8) == 4)
-					{
-						data[i][j][k] = 2; // locked door
-					}
-					else
-					{
-						data[i][j][k] = 1; // wall.
-					}
+					data[i][j][k] = 1; // wall.
 				}
 				else // mark it as a blank tile (0)
 				{
@@ -277,4 +285,3 @@ ConnStat Cell::getDirectionalConnectivity(Point& pos, Direction Dir)
 	short connect = getConnectivity(pos);
 	return connMask(connect, Dir);
 }
-

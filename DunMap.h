@@ -26,14 +26,39 @@ class DunMap
     // The Map itself.
 	std::map<Point, Cell*> BigMap;
 
-	// A hard setter for creating room connections, adds the connection regardless of the rooms, but ensures
-	// the consistency of the map remains. Will even create a 'dead room' that is completely detached.
-	void SetRoomConnections(Point& cell, Point& room, Direction dir, ConnStat connType);
+	// A hard setter for creating room connections, adds the connection regardless of the rooms, even to
+	// the point of breaking connectivity. Use lightly.
+	void SetRoomConnectivity(Point& cell, Point& room, Direction dir, ConnStat connType);
+
+	// Another Hard Setter for Creating room connection, but does so mutually, ensuring that connectivity
+	// is retained. Ignores preexisting connections.
+	void SetMutualRoomConnectivity(Point& cell, Point& room, Direction dir, ConnStat connType);
+
+	// Connectivity getter for an arbitrary cell, room, and direction.
+	ConnStat getConnectionFor(Point& cell, Point& room, Direction dir) { return BigMap[cell]->getDirectionalConnectivity(room, dir); }
+
+	// a utility function primarily for testing if a room is validly connected to another.
+	std::vector<Point> findPath(Point& start, Point& startRoom, Point& end, Point& endRoom);
+
+	// A more specific function to find if it returns to the town.
+	Point TownCell = Point(0, 0);
+	Point TownRoom = Point(4, 4);
+	std::vector<Point> findPathToTown(Point& start, Point& startRoom) { return findPath(start, startRoom, TownCell, TownRoom); }
+
+	// change the tiles along the walls to match their connectivity, assume connections are true, 
+	// run connectivity check before doing this.
+	void updateWalls();
+
+	// another wall updater, but for specific rooms.
+	void updateRoomsWalls(Point& cell, Point& room);
+
+	// TODO add some functions to get undir, adj room, and adj cell.
+
+	// Check for interconnectivity between cells (ensure they match up).
+	bool InterCellConnectivityCheck(Point QuestionCell);
 
 public:
 	// Functions
-	// Check for interconnectivity between cells (ensure they match up).
-	bool InterCellConnectivityCheck(Point QuestionCell);
 
 	// Point Data Setters
 	void setData(Point& pos, int ndata, int level) { curr->setData(pos, ndata, level); }
@@ -49,25 +74,29 @@ public:
 	// Destructor
 	~DunMap();
 
-	// Create room connection even between cells. This will only go through if the rooms don't exist.
-	// returns false if the room already exists.
+	// Create room connection even between cells. This will only go through if the existing connection types agree with it.
+	// either locked<->DNE to unlocked<->unlocked or like<->like, there are additional rules applied by the game. See overview for details.
+	// We take the assumption that the cell exists and the room exists (is not DNE or 0).
 	bool CreateRoomConnection(Point& room, Direction dir, ConnStat connType) { return CreateRoomConnectionInCell(currPos, room, dir, connType); }
 	bool CreateRoomConnectionInCell(Point& cell, Point& room, Direction dir, ConnStat connType);
 
+	bool toggleRoomLock(Point& cell, Point& room, Direction dir);
+	bool toggleRoomLockInCurr(Point& room, Direction dir) { return toggleRoomLock(currPos, room, dir); }
+
 	// Create Cell
-	// Returns True if it was created, false if the cell is already taken.
+	// if the cell given doesn't exist it makes it. else it does nothing.
 	// Param: Pos, the point of the cell
-	bool CreateCell(Point& pos);
-	bool CreateCell(long x, long y) { return CreateCell(Point(x, y)); }
+	void CreateCell(Point& room);
+	void CreateCell(long x, long y) { return CreateCell(Point(x, y)); }
 
 	// Create Blank room. This is for testing purposes. It is a room with one type of each connection type.
 	// We this will be used to test creation based on connection logic.
 	// Returns true if the room was created, false if the room already exists.
-	bool CreateBlankRoom(Point& pos); // no randomizer, make blank room.
-	bool CreateBlankRoomInCell(Point& cell, Point room);
+	void CreateBlankRoom(Point& pos); // no randomizer, make blank room. 
+	void CreateDeadRoom(Point& pos); // Even less testing here, just create a room to test gfx.
 
-	bool CreateRoom(Point& pos, int(*randomizer)());
-	bool CreateRoom(long x, long y, int(*randomizer)()) { return CreateRoom(Point(x, y), randomizer); }
+	bool CreateRoom(Point& pos);
+	bool CreateRoom(long x, long y) { return CreateRoom(Point(x, y)); }
 
 	// Loader Function (placeholder)
 	// void Load(stuff);

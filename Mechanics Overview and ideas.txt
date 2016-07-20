@@ -152,6 +152,67 @@ Statistics
 		- Can be used for special attacks and similar things.
 		- Drains over time as you need to sleep to maintain your will.
 
+Map Rules
+	Room connections.
+		There are 4 connections a room can have with an adjacent and they are fairly self explanatory.
+		- Closed
+		- Open
+		- Locked
+		- Unlocked
+	Player interaction with connections.
+		A player cannot pass through a closed connection period.
+		An open connection is passable, if not immediately traversable (pitfalls and all that).
+		A locked connection is impassable, but can be opened. (more on unlocking later)
+		An unlocked connection is passable, and can be locked ( more on locknig later)
+
+	Locking and unlocking.
+		Unlocking a room that does not exist creates the room in the unlocking process.
+		The room that is created is guaranteed to have another door to an uncreated space.
+		If a created room is adjacent to another room, the created room will match the other rooms, new
+		connections will not be made to old rooms.
+
+		Locking a room will do one of 2 things. 
+		If you can still get to that room by another path, it will simply lock the door on both sides
+		and that's it. 
+		If you cannot reach that room by another path the room is destroyed.
+
+		!!!QUESTION RAISED!!!
+		--If you are locking a room from the side of the door that doesn't have the town
+		connected to it, should it destroy the rooms anyway or refuse the lock? Refusing the lock limits the
+		player and doesn't allow them to challenge themself in stupid ways. Allowing it may cause someone
+		accidentally closing it off anyway and effectively stranding them. Locking also effectively means
+		the player is unable to respawn as all data in the locked room will be deleted and lost.
+		-- We can allow it to happen, but have a double prompt warning of the effects to keep an unexpecting
+		player from stumbling into a deathtrap.
+		-- We could also do another where, rather then destroying the original rooms, it simply strands the
+		room the player is in and moves it elsewhere allowing them to possibly find their way back, but
+		increasing the threat of death should they fail to reconnect to the original rooms.
+		   -- This last one, while it sounds interesting, sounds like a pain to implement and could 
+		   wildly shift between an effective game over and pointless reworking of the map. It would also 
+		   potentially break the theming of the directions as the room floats between the four corners to
+		   confuse the player purposefully.
+		!!!QUESTION END!!!
+
+	Altering room connections
+		The player can eventually effect room connections more directly, but the area they should be able
+		to do this should be small so they can't abuse it to get anywhere freely. If the player could do this
+		anywhere they could easily break the challenge of effective traversal and make the boss 100 rooms
+		to the north more like 40 as they remove all paths in the way.
+		It should also disallow creating 'dead rooms' where they could potentially put their
+		'doomsday device/easy button' and hide it safely away until it is completed. Dead room in this case
+		is a room that is entirely closed off, but still exists.
+		A potential limit on them is the ability to ONLY open connections. They cannot create doors to lock,
+		or close the wall off. This means that if they mess up in opening a connection they may have to 
+		destroy and regenerate an entire section of a cell.
+		
+		!!!QUESTION RAISED!!! 
+		-- Should the player be allowed to change connections between cells. The main reason for this is I'm
+		kind of thinking in terms of minecraft's loaded chunks, or in this case cells. Allowing connections
+		between cells to be permanently opened would certainly mess with this mechanic, however if you don't
+		think this is an issue and most (if not all) of the map can be comfortably loaded at the same time,
+		then this should not be an issue and intercell connections would be made possible.
+		!!!Question END!!!
+
 Disorganized Thoughts
 Lineage System and Character interactions
 

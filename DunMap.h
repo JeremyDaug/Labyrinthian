@@ -3,6 +3,7 @@
 
 #include<map>
 #include<vector>
+#include<queue>
 
 #include "Cell.h"
 
@@ -95,7 +96,7 @@ public:
 	void CreateBlankRoom(Point& pos); // no randomizer, make blank room. 
 	void CreateDeadRoom(Point& pos); // Even less testing here, just create a room to test gfx.
 
-	bool CreateRoom(Point& pos);
+	bool CreateRoom(Point& room);
 	bool CreateRoom(long x, long y) { return CreateRoom(Point(x, y)); }
 
 	// Loader Function (placeholder)

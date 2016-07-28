@@ -4,13 +4,17 @@
 #include <string>
 #include <vector>
 #include <map>
-
 #define STR "strength"
 #define DEX "dexterity"
 #define CON "constitution"
 #define INT "intelligence"
 #define ITU "intuition"
 #define WIL "willpower"
+
+#define HP "healthPoints"
+#define SP "staminaPoints"
+#define MP "mentalPoints"
+#define WP "willPoints"
 
 // A holder for our standard values. May float off to a config
 // file, but unlikely as this should not be changeable by the player ordinarily.
@@ -34,6 +38,7 @@ enum Types : int
 
 class Entity
 {
+private:
 	// a unique, semi-random id to denote a specific entity.
 	int ID;
 

@@ -539,7 +539,7 @@ void DunMap::updateRoomsWalls(Point& cell, Point& room)
 	}
 }
 
-// TIME TO DO SOME MOTHERFUCKING A* OR SOMETHING!
+// TIME TO DO SOME MOTHERFUCKING DJIKSTRAS OR SOMETHING!
 /*
 findPath is not interested in the fastest, or best path, it simply wants to know if there is a path
 through existing rooms that does not require you to pass through a locked or closed connection.

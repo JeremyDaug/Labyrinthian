@@ -69,7 +69,11 @@ public:
 	bool CellExists(Point& pos);
 	bool CellExists(long x, long y) { return CellExists(Point(x, y)); }
 
-	// Let's start building.
+	// getters for tile data
+	int* getTileDataInCell(Point& cell, Point& room, Point& tile) { return BigMap[cell]->getData(Point(room.x * 8 + tile.y, room.y * 8 + tile.y)); }
+	// getter for a tile in the curr cell.
+	int* getTileData(Point& room, Point& tile) { return getTileDataInCell(currPos, room, tile); }
+
 	// Constructor
 	DunMap();
 	// Destructor

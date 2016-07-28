@@ -23,6 +23,36 @@ Character
 		->Abilities
 			--- These grant new things to the character. An ability can be an attack (firebolt),
 			--- a buff (haste), an allowance (craft robot), or a new option (fly).
+	        ->Flags
+			    ->AoE, or area of effect
+				->DoT, damage over time, or the effect repeats itself over time.
+				->Temp, the effect has a duration.
+					--- if this is no it is counted as permanent or instantanious. If it has an action it
+					--- and no temp it is instantanious, if it has no action, and no temp, then it is passive (permanent).
+				->attack, whether you need to hit with something (dependent on type of attack and
+				    if it's attached to a weapon AOE never has this)
+				->Magic, if it's has magic as it's source. (can be used with tech, but makes it magitek)
+				->tech, if it has tech as its source (can be used with magic, but makes the abiltiy magitek)
+				->Physical, if the ability effects or is resisted by physical stats.
+				->Mental, if the ability effects or is resisted by mental stats.
+				->Stackable, if it stacks with itself (all non-like abilities stack)
+				->percent, if it uses a percent modifier on it's 'to'.
+				->flat, if it gives a flat modifier on it's 'to'.
+				->allowance, if the ability is an allowance. 
+					--- An allowance is is basically a glorified flag.
+					--- Ex, fly is an allowance to ignore all terrain.
+					--- Ex. craft robot is an allowance to craft robots from materials.
+				->action, if the ability has an action tied to it.
+					--- This means that it can be actively turned on/off and activated in combat.
+				->limited use, this is a pool or cost that is a cap separate from your own SP/WP pools. 
+					--- Ex. Limited Fly on a suit of armor lets you activate the fly allowance 3/day.
+					--- Limited use is always either instantanious or temporary. The details of how
+					--- the uses are regained are in extras.
+			->Ability Packs
+				--- These are multiple abilities that are packaged together into one entity. They are
+				--- Special in that they must be used together. Ex. Boiling blood includes a buff to STR, but
+				--- a DOT effect at the same time. You cannot activate the buff in the pack without getting 
+				--- the DOT effect also. All abilities are wrapped in this, even if they are alone.
     ->Weapons
         ->Bludgeoning
         ->Slashing

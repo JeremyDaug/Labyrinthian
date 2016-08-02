@@ -27,7 +27,7 @@ Character
 			    ->AoE, or area of effect
 				->DoT, damage over time, or the effect repeats itself over time.
 				->Temp, the effect has a duration.
-					--- if this is no it is counted as permanent or instantanious. If it has an action it
+					--- if this is no it is counted as permanent or instantanious. If it has an action
 					--- and no temp it is instantanious, if it has no action, and no temp, then it is passive (permanent).
 				->attack, whether you need to hit with something (dependent on type of attack and
 				    if it's attached to a weapon AOE never has this)

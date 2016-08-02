@@ -403,9 +403,20 @@ void DunMap::CreateBlankRoom(Point& room)
 	updateRoomsWalls(currPos, room);
 }
 
+bool DunMap::CreateRoom(Point & room)
+{
+	// create a randomized room based on our current stats
+	// check if it works, if not, try again.
+	// once it fits, make the connections match and add some more.
+
+	// todo actuall do that stuff. For now create a blank room.
+	CreateBlankRoom(room);
+	return false;
+}
+
 void DunMap::updateWalls()
 {
-	for (int i = 0; i < existingCells.size(); ++i)
+	for (unsigned int i = 0; i < existingCells.size(); ++i)
 	{
 		for (int x = 0; x < 8; ++x)
 		{
@@ -528,7 +539,7 @@ void DunMap::updateRoomsWalls(Point& cell, Point& room)
 	}
 }
 
-// TIME TO DO SOME MOTHERFUCKING A* OR SOMETHING!
+// TIME TO DO SOME MOTHERFUCKING DJIKSTRAS OR SOMETHING!
 /*
 findPath is not interested in the fastest, or best path, it simply wants to know if there is a path
 through existing rooms that does not require you to pass through a locked or closed connection.
@@ -540,5 +551,7 @@ If we cannot find one we return an empty path.
 */
 std::vector<Point> DunMap::findPath(Point& start, Point& startRoom, Point& end, Point& endRoom)
 {
-
+	std::vector<Point> retVector;
+	
+	return retVector;
 }

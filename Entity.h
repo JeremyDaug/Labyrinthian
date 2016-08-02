@@ -4,6 +4,17 @@
 #include <string>
 #include <vector>
 #include <map>
+#define STR "strength"
+#define DEX "dexterity"
+#define CON "constitution"
+#define INT "intelligence"
+#define ITU "intuition"
+#define WIL "willpower"
+
+#define HP "healthPoints"
+#define SP "staminaPoints"
+#define MP "mentalPoints"
+#define WP "willPoints"
 
 // A holder for our standard values. May float off to a config
 // file, but unlikely as this should not be changeable by the player ordinarily.
@@ -25,19 +36,9 @@ enum Types : int
 	purpleElephant = 16
 };
 
-// keys for stats because I'm lazy.
-enum abvs
-{
-	Strength,
-	Dexterity,
-	Endurance,
-	Intelligence,
-	Intuition,
-	Willpower
-};
-
 class Entity
 {
+private:
 	// a unique, semi-random id to denote a specific entity.
 	int ID;
 
@@ -52,14 +53,14 @@ class Entity
 	// Stat[1][0] is Intelligence.
 	// Stat[1][1] is Intuition.
 	// Stat[1][2] is WillPower.
-	int Stats[2][3];
+	unsigned int Stats[2][3];
 
 	// the Condition Bars. HP, SP, MP, and WP
 	// Health Points (HP) is the ammount of damage the creature can take.
 	// Stamina Points (SP) is the measure of it's physical energy.
 	// Mental Points (MP) is like HP but for the Mind.
 	// Will Points (WP) is like SP for the mind.
-	int Condition[2][2];
+	unsigned int Condition[2][2];
 
 	// a bitmap for the types that the entity counts as.
 	// some are exclusive to each other, but most are not.
@@ -94,21 +95,21 @@ public:
 	~Entity();
 
 	// Max functions for HP,SP,MP, and WP
-	int maxHP();
-	int maxMP();
-	int maxSP();
-	int maxWP();
+	unsigned int maxHP();
+	unsigned int maxMP();
+	unsigned int maxSP();
+	unsigned int maxWP();
 
 	// Stat Accessors
-	int Str() {	return Stats[0][0]; }
-	int Dex() { return Stats[0][1]; }
-	int End() { return Stats[0][2]; }
-	int Int() { return Stats[1][0]; }
-	int Itu() { return Stats[1][1]; }
-	int Wil() { return Stats[1][2]; }
+	unsigned int Str() {	return Stats[0][0]; }
+	unsigned int Dex() { return Stats[0][1]; }
+	unsigned int End() { return Stats[0][2]; }
+	unsigned int Int() { return Stats[1][0]; }
+	unsigned int Itu() { return Stats[1][1]; }
+	unsigned int Wil() { return Stats[1][2]; }
 
 	// Current Total Level
-	int Level();
+	unsigned int Level();
 };
 
 #endif // _ENTITY_H

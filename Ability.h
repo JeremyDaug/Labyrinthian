@@ -5,33 +5,8 @@
 #include <vector>
 #include <math.h>
 
-// defines
-#define STR "strength"
-#define DEX "dexterity"
-#define CON "constitution"
-#define INT "intelligence"
-#define ITU "intuition"
-#define WIL "willpower"
-
-#define HP "healthPoints"
-#define SP "staminaPoints"
-#define MP "mentalPoints"
-#define WP "willPoints"
-
-enum mods : unsigned short
-{
-	stackable = 1,
-	percent = 2,
-	flat = 4,
-	allowance = 8,
-	DoT = 16, // damage over time
-	AoE = 32, // Area of Effect
-	attack = 64, // whether it is usable on others or only yourself.
-	magic = 128,
-	tech = 256,
-	physical = 512,
-
-};
+// include constants
+#include "Constants.h"
 
 class Ability
 {
@@ -49,11 +24,23 @@ private:
 	float cent;
 	short flags;
 
+	// cost of the ability
+	int cost;
+
 	// Extra storage for miscellanious info (usually connected to flags)
 	std::vector<std::string> extra;
 
 	// very special stuff here.
 	std::string allowance;
+
+	// setters The only class that should alter this is the AbilityPack Class.
+	void setShortDesc(std::string x) { shortdesc = x; }
+	void setLongDesc(std::string x) { longdesc = x; }
+	void setFlat(int x) { flat = x; }
+	void setCent(float x);
+	void setFlags(short f) { flags = f; }
+	void addExtra(std::string x) { extra.push_back(x); }
+	void setAllowance(std::string x) { allowance = x; }
 
 public:
 	Ability();
@@ -67,18 +54,11 @@ public:
 	int getFlat() { return flat; }
 	float getCent() { return cent; }
 	short getFlags() { return flags; }
+	int getCost() { return cost; }
 	std::vector<std::string>* getExtra();
 	std::string getAllowance() { return allowance; }
 
-	// setters
-	void setShortDesc(std::string x) { shortdesc = x; }
-	void setLongDesc(std::string x) { longdesc = x; }
-	void setFlat(int x) { flat = x; }
-	void setCent(float x);
-	void setFlags(short f) { flags = f; }
-	void addExtra(std::string x) { extra.push_back(x); }
-	void setAllowance(std::string x) { allowance = x; }
-
+	friend AbilityPack;
 };
 
 #endif

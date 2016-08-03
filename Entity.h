@@ -4,17 +4,9 @@
 #include <string>
 #include <vector>
 #include <map>
-#define STR "strength"
-#define DEX "dexterity"
-#define CON "constitution"
-#define INT "intelligence"
-#define ITU "intuition"
-#define WIL "willpower"
 
-#define HP "healthPoints"
-#define SP "staminaPoints"
-#define MP "mentalPoints"
-#define WP "willPoints"
+// constants
+#include "Constants.h"
 
 // A holder for our standard values. May float off to a config
 // file, but unlikely as this should not be changeable by the player ordinarily.
@@ -25,16 +17,6 @@ const struct Scales
 	float sp = 1.5;
 	float wp = 1.5;
 } scale;
-
-// masks for the types to make it easier for bitwise ops.
-enum Types : int
-{
-	humanoid = 1,
-	undead = 2,
-	robot = 4,
-	alien = 8,
-	purpleElephant = 16
-};
 
 class Entity
 {

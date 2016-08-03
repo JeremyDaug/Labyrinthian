@@ -27,7 +27,7 @@ Character
 			    ->AoE, or area of effect
 				->DoT, damage over time, or the effect repeats itself over time.
 				->Temp, the effect has a duration.
-					--- if this is no it is counted as permanent or instantanious. If it has an action it
+					--- if this is no it is counted as permanent or instantanious. If it has an action
 					--- and no temp it is instantanious, if it has no action, and no temp, then it is passive (permanent).
 				->attack, whether you need to hit with something (dependent on type of attack and
 				    if it's attached to a weapon AOE never has this)
@@ -48,23 +48,83 @@ Character
 					--- Ex. Limited Fly on a suit of armor lets you activate the fly allowance 3/day.
 					--- Limited use is always either instantanious or temporary. The details of how
 					--- the uses are regained are in extras.
+				->Costs Stamina/Will A bool to toggle whether it costs stamian or will points to use it.
+					--- The default (0) is stamina cost. If 1 it is will cost.
+					--- Note: The ability can cost 0 SP or WP. 
 			->Ability Packs
 				--- These are multiple abilities that are packaged together into one entity. They are
 				--- Special in that they must be used together. Ex. Boiling blood includes a buff to STR, but
 				--- a DOT effect at the same time. You cannot activate the buff in the pack without getting 
 				--- the DOT effect also. All abilities are wrapped in this, even if they are alone.
     ->Weapons
-        ->Bludgeoning
-        ->Slashing
-        ->Piercing
-        ->Precision
+		->Light
+			--- Light weapons tend toward piercing and slashing damage as well as multiple small attacks.
+		->Heavy
+			--- Heavy weapons are weapons that depend upon fewer heavy blows, it tends toward  bludgeon, but
+			has a fair number of slashing weapons as well.
         ->Ranged
+			--- Can do any type of damage, but tends away from slashing. Such weapons have a limit to the bonus
+			damage they can gain from strength, but in return get a better scaling to precision.
         ->Firearm
-        ->Magic
+			--- Much like ranged weapons, they get no bonus from strength, but they get large bonuses from
+			precision damage.
+        ->Abilities
+			--- Abilities are a mixture of magic/tech and other such bonuses that have little to no physical
+			component to them.
+	->Damage
+		->Bludgeon
+			--- Based around dealing a few strong blows, it prefers to overcome DR by raw force. It has higher
+			stamina cost to limit the number of attacks.
+		->Slash
+			--- It is balanced between Light and Heavy weapons and prefers multiple attacks over singular blows.
+		->Pierce
+			--- While faster then bludgeon while strong against armor, it deals little damage with each hit.
+			It's ability to penetrate armor comes from it's ability to ignore or divide DR allowing what little
+			damage it does to get through nicely.
+		->Precision
+			--- This often happens on all other damage types. This damage only comes up if at least 1 point of
+			another damage is dealt. It ignores standard armor, and increases the difficulty of dodge.
+		->Magic/Tech and elements.
+			->Modifier
+				->Magic
+					--- Magic Scales off of intuition and takes skill to use. Remember that Magic stops Magic.
+				->Tech
+					--- Tech Scales off of Intelligence and acts like standard weapons primarily, but requires
+					high crafting skill and time to make the stuff. Remember Tech resists Tech.
+				->Magitek
+					--- The fusion of Magic and Technology, unique to the player. It scales off of both
+					intelligence and Intuition, but neither tech nor magic can resist it.
+			->Fire
+			->Ice
+			->Lightning
+			->Acid
+			->Sonic
+			->Radiant
+			->Infernal
+			->Psionic
+				->Unique to Tech, it's a form of non-elemental damage that hits both body and mind with damage. It
+				can be resisted only be mental resistances and other Psionic stuff.
+			->Eldritch
+				->Unique to Magic, it's a form of non-elemental damage that hits both body and mind with damage. It
+				can be resisted only by mental resistances and other Eldritch stuff.
     ->Armor
         ->Flexible
+			--- Soft DR, it is lighter and more forgiving then hard armor. It gives a nice ammount of DR but is
+			good against no damage in particular.
         ->Hard
+			--- Hard DR, it's heavier and often more difficult to use, but it' gives lots of DR. It's weak against
+			piercing, and Bludgeon is good at overcoming it, but it is particularly good against Slashing. It can
+			also give some protection against Precision damage, unlike other armors.
+		->Shielding
+			--- Best described as a damage buffer, it is a regenerating pool of defence that works against everything,
+			but if it's overwhelmed it will protect nothing. Shielding however does have a limitation that it's typed
+			magic shielding does not defend against tech based damage and vice versa. Another strength of Shielding is
+			it's ability to effectively change out physical damage for other stuff.
         ->Dodge
+			--- Dodge is a form of active defence where you use your stamina to keep yourself from getting any damage
+			at all. The strength is that it is very good against Bludgeon and Piercing, but it's weakness is against light
+			weapons, particularly slashing weapons. The weakness of it is that every dodge, regardless of damage, costs
+			the same ammount of SP to use.
     ->Equipment
         ->2 Rings
         ->2 Bands
@@ -101,11 +161,14 @@ Character
         ->Itu Based
             ->Research Magic
 			->Thaumaturgy
+			->Use Magic
 			->Problem Solving
         ->Wil Based
             ->Hold focus
 			->Reject Manipulation
         ->Mixed Basis
+			->Charisma
+			->Magitek
     ->Enhancements
         ->Boosters
         ->infusions
@@ -130,7 +193,16 @@ Starting Options
 			- Engineer: Tech user, weak overall, but has passeble crafting and strong use with tech.
 			- Sage: Magic user, but not a combatant, helps with study of magic.
 			- Scientist: Tech user, not a combatant, helps with study of tech.
+			- Rival: A random combat class who has it out for you and upon meeting up with you will attempt to kill you.
 
+Flow of an attack turn.
+	Chose target
+	Standard attack
+		Opponent rolls dodge - precision/skill bonus from you.
+			if hit roll damage - dr
+				if damage dealt > 1 roll precision damage - special dr.
+		apply damage to shield
+		apply remaining damage to target.
 
 Statistics
 
@@ -171,7 +243,6 @@ Statistics
 	Stamina Points SP
 		Created by endurance. This is the ammount of energy you have as a character.
 		- Can be used for special attacks and maneuvers.
-		- Drains over time as you need food to sustain yourself.
 
 	Mental Points MP
 		Created by Willpower and Level, this is the ammount of mental damage you can take and still function.
@@ -181,6 +252,69 @@ Statistics
 		Created by Willpower, this is the ammount of mental energy you have as a character.
 		- Can be used for special attacks and similar things.
 		- Drains over time as you need to sleep to maintain your will.
+
+	Physical Saturation (Food bar)
+		A (nearly) static meter for food and sustenance of the character. More info in the Saturation Bar Section.
+
+	Mental Saturation (Sleep bar)
+		A (nearly) static meter for rest and sleep of the character.
+
+
+Sustenance, Food, Sleep, and SP/WP
+	- Sustenance is effectively an overflow bar for food and rest. If the bar is full then the character needs no food or
+	rest. The bar will empty over the course of an in-game day until it is empty. There are no effects on the character
+	untill the bar is empty. 
+	- Once the bar is empty the character needs food or sleep and it will start eating the maximum value of the
+	SP and WP pool respectively. Once the SP/WP bar reach a low enough	point (between 25% and 50%) the character is
+	officially starving or sleep deprived and it will start eating the maximum HP/MP of the character. If the
+	character does not rest or eat they will eventually die.
+	- The threshholds that are mentioned here also have other effects tied to them, ranging from loss of strength to mental
+	breaks. 
+	- Additionally because time is not properly calculated in combat, instead it drains them by SP/WP consumption. Every full
+	bar worth of points that is used will drain 1 point from the respective saturation meter. If the saturation bar is empty
+	the SP/WP will continue to recover as usual but will stop at the lowerd maximum.
+	Saturation does not increase under normal circumstances. It can increase by abilities and items. 
+	- Default points in the Saturation bars is probably going to be between 50 and 100 pts.
+
+Time measurements
+	!!!QUESTION RAISED!!!
+	Should we bother calculating time passed in combat, or should time be effectively non-existant in combat. If the day time
+	is not calculated in combat it makes the management of combat easier. If it is calculated then it makes the difference
+	between combat and non-combat more blurry and helps with immersion.
+	!!!QUESTION END!!!
+	To simplify things there is a simple calculation for time.
+	These are not absolute and can use some discussion and balancing.
+	1 day = 10-20 minutes (need disscusion and balancing)
+	1 year = 5-10 days 
+	10 years = life stage
+	5 stages of life
+	
+	- There are 5 stages to ordinary character's lives. 
+	1. Childhood
+		- This is the development time of the character's life cycle, while able to fight they are effectively useless. They
+		may be trained but they simply lack the ablility to match up to adults. During this age they are growing quickly, but
+		are exclusively denied the ability to be put in groups. Effective age range 0-15 RWY(real world years).
+	2. Youth
+		- This is the early stage of their adulthood. Here they can be used, but they still lack the strength to match up to
+		adults properly. But they are of age to be put into groups and brought out to fight. They are generally weaker, but
+		they gain stats as they go along until they reach adult hood. Effective age range 15-25 RWY
+	3. Adulthood
+		- This is the plateau of a character's growth. They do not gain or lose strength due to time. They can still grow
+		stronger, but they are effectively at their peak of age power. Effective age range 25-40 RWY
+	4. Seasoned
+		- This is the start of the down hill of a character. They will slowly start losing their strengths. While they can
+		still be used, they cannot grow anymore at all. At best they can maintain themselves and resist weakness that way.
+		Effective age range 40-60.
+	5. Venerated
+		- This is the final stage of the characcter's life, this stage is not a hard end. The character is now guaranteed
+		to be weakening. However, they can pass on their knowledge and experience to younger characters. The character will
+		live until their endurance hits 0. Then they are dead.
+
+	Pregnancy
+		- Characters may have children, if they are a woman there is a period where they are pregnant. During this time they
+		are more susceptible to damage, and if hit to hard may have problems. They also have a few penalties to their physical
+		stats. They can still be put into the active party, but doing so should be a questionable descision at best.
+		Pregnancy lasts 4-6 days (depends on the length of a year).
 
 Map Rules
 	Room connections.
@@ -194,6 +328,10 @@ Map Rules
 		An open connection is passable, if not immediately traversable (pitfalls and all that).
 		A locked connection is impassable, but can be opened. (more on unlocking later)
 		An unlocked connection is passable, and can be locked ( more on locknig later)
+
+	Open rooms
+		Rooms that are open are treated like a singular room in most respects. You can pass between open
+		room freely as can monsters.
 
 	Locking and unlocking.
 		Unlocking a room that does not exist creates the room in the unlocking process.

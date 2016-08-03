@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "AbilityPack.h"
 
 // constants
 #include "Constants.h"
@@ -57,11 +58,8 @@ private:
 	// Skill List
 	std::map<std::string, int> skills;
 
-	// Unspec'd Abilities
-	// Ability
-
-	// Modifiers (buff/debuffs)
-	// std::vector<mod> modifiers;
+	// Unspec'd Abilities, both gained and earned.
+	std::vector<AbilityPack> abilities;
 
 	// items
 	// weapons [equiped/unequiped]

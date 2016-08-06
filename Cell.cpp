@@ -285,3 +285,26 @@ ConnStat Cell::getDirectionalConnectivity(Point& pos, Direction Dir)
 	short connect = getConnectivity(pos);
 	return connMask(connect, Dir);
 }
+
+void Cell::getCellTiles(unsigned char* tiles)
+{
+	unsigned char* ret = new unsigned char[64 * 64];
+	for (int i = 0; i < 64; ++i)
+	{
+		for (int j = 0; j < 64; ++j)
+			ret[j + i * 64] = data[j][i][0];
+	}
+	tiles = ret;
+}
+
+void Cell::getRoomData(Point room, unsigned char* tiles)
+{
+	unsigned char* ret = new unsigned char[64];
+	for(int y = 0; y < 8; ++y)
+	{
+		for (int x = 0; x < 8; ++x)
+		{
+			ret[y + 8 * x] = data[x + room.x * 8][y + room.y * 8][0];
+		}
+	}
+}

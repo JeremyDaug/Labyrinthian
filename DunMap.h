@@ -109,6 +109,12 @@ public:
 	// tester functions
 	bool ConnectivityConsistencyCheck(); // tested
 	// Pathing check.
+
+	// Return the data of a cell
+	void getCellData(Point cell, unsigned char* tiles);
+	void getCurrCellData(unsigned char* tiles) { getCellData(currPos, tiles); }
+
+	void getRoomData(Point cell, Point room, unsigned char* tiles);
 };
 
 #endif // !DUNMAP_H

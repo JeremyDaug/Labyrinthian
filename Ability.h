@@ -58,7 +58,7 @@ public:
 	std::vector<std::string>* getExtra();
 	std::string getAllowance() { return allowance; }
 
-	friend AbilityPack;
+	friend class AbilityPack;
 };
 
 #endif

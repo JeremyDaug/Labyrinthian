@@ -555,3 +555,13 @@ std::vector<Point> DunMap::findPath(Point& start, Point& startRoom, Point& end, 
 	
 	return retVector;
 }
+
+void DunMap::getCellData(Point cell, unsigned char* tiles)
+{
+	BigMap[cell]->getCellTiles(tiles);
+}
+
+void DunMap::getRoomData(Point cell, Point room, unsigned char* tiles)
+{
+	BigMap[cell]->getRoomData(room, tiles);
+}

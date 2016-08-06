@@ -103,6 +103,10 @@ public:
 	ConnStat getDirectionalConnectivity(int x, int y, Direction Dir) { return getDirectionalConnectivity(Point(x, y), Dir); } // tested
 
 	bool roomExists(Point pos) { return connectivity[pos.x][pos.y] != 0; };
+
+	void getCellTiles(unsigned char* tiles);
+
+	void getRoomData(Point room, unsigned char* tiles);
 };
 
 
